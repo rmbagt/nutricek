@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Content from "../components/home/content";
+import Content from "../../components/search";
 
-export default function Home() {
+export default function Search() {
   return (
     <div className="min-h-screen">
       <Content />

@@ -1,66 +1,44 @@
 "use client";
-
-import { ReactElement, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { IoGrid } from "react-icons/io5";
-import { RiSideBarFill } from "react-icons/ri";
-
-type Menu = {
-  id: string;
-  title: string;
-  icon: ReactElement;
-  link: string;
-};
-
-const style = {
-  active: "text-gray-100 font-bold bg-zinc-700",
-  inactive:
-    "text-gray-500 dark:text-gray-300 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 hover:cursor-pointer",
-};
-
-const menu = [
-  {
-    id: "",
-    title: "Home",
-    icon: <IoGrid />,
-    link: "/",
-  },
-];
+import { IoPersonOutline } from "react-icons/io5";
+import { IoMdHome, IoIosSearch, IoIosCamera, IoIosHeartEmpty } from "react-icons/io";
 
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const currentPath = pathname.split("/")[1];
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("")  ;
+
+  useEffect(() => {
+    const newPath = `${pathname.split("/")[1]}`;
+    setActiveLink(newPath || "home");
+  }, [pathname]);
+
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+  };
 
   return (
-    <>
-      <div
-        className={`absolute z-30 rounded-lg bg-zinc-600 p-2 text-white shadow-lg transition-all duration-300 hover:cursor-pointer hover:bg-zinc-500 md:text-xl ${
-          isMenuOpen ? "mx-4 mt-4" : "mx-4 mt-2"
-        }`}
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-      >
-        <RiSideBarFill />
-      </div>
-      {isMenuOpen && (
-        <div className="absolute z-20 h-full w-full overflow-auto border-r bg-white px-2 pt-16 shadow-2xl dark:bg-gray-800 md:w-[256px]">
-          <div className="flex flex-col gap-3">
-            {menu.map((item: Menu, index: number) => (
-              <div
-                className={`flex items-center gap-2 rounded-xl px-3 py-2 text-xs md:text-sm ${
-                  item.id === currentPath ? style.active : style.inactive
-                } transition-all`}
-                key={index}
-                onClick={() => router.push(item.link)}
-              >
-                {item.icon}
-                <p className="w-full">{item.title}</p>
-              </div>
-            ))}
+    <div className="p-5 sticky bottom-0">
+      <div className="flex items-center justify-between">
+        <a href="/" onClick={() => handleLinkClick("home")}>
+          <IoMdHome className={`text-4xl ${activeLink === "home" ? "text-[#4cab52]" : "text-black"}` }/>
+        </a>
+        <a href="/search" onClick={() => handleLinkClick("search")}>
+          <IoIosSearch className={`text-4xl ${activeLink === "search" ? "text-[#4cab52]" : "text-black"}` }/>
+        </a>
+        <a href="#">
+          <div className="rounded-full bg-[#4cab52] p-1">
+            <IoIosCamera className="text-4xl text-white" />
           </div>
-        </div>
-      )}
-    </>
+        </a>
+        <a href="/favorite" onClick={() => handleLinkClick("favorite")}>
+          <IoIosHeartEmpty className={`text-4xl ${activeLink === "favorite" ? "text-[#4cab52]" : "text-black"}` }/>
+        </a>
+        <a href="/profile" onClick={() => handleLinkClick("profile")}>
+          <IoPersonOutline className={`text-4xl ${activeLink === "profile" ? "text-[#4cab52]" : "text-black"}` } />
+        </a>
+      </div>
+    </div>
   );
 }

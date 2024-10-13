@@ -1,17 +1,16 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
-import FoodSection from "./foodsection";
-import DrinkSection from "./drinksection";
+import FoodSection from "./nofood";
+import DrinkSection from "./nodrink";
 
-const Favorite = () => {
+const NoItems = () => {
     const [activeSection, setActiveSection] = useState("food");
 
     const handleSectionClick = (section: string) => {
         setActiveSection(section);
     };
 
-    return(
+    return (
         <>
             {/* Header */}
             <div className="flex text-center justify-center">
@@ -37,4 +36,4 @@ const Favorite = () => {
     );
 };
 
-export default Favorite;
+export default NoItems;

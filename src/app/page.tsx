@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Content from "../components/home/content";
+import HomeModule from "@/components/home/module";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="min-h-screen">
-      <Content />
+      <HomeModule />
     </div>
   );
 }

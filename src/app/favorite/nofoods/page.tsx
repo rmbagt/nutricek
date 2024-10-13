@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Content from "../../../components/noitems";
+import NoFoodsModule from "@/components/no-foods/module";
 
-export default function NoFoods() {
+export default function NoFoodsPage() {
   return (
     <div className="min-h-screen">
-      <Content />
+      <NoFoodsModule />
     </div>
   );
 }

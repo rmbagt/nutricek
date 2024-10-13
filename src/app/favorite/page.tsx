@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Content from "../../components/favorite";
+import FavoriteModule from "@/components/favorite/module";
 
-export default function Favorite() {
+export default function FavoritePage() {
   return (
     <div className="min-h-screen">
-      <Content />
+      <FavoriteModule />
     </div>
   );
 }

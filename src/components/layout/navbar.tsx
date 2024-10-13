@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { IoCloseSharp, IoMenu } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
@@ -41,7 +41,7 @@ export default function Navbar() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Image
-                    src="/fern.jpg"
+                    src="/assets/Fern.jpg"
                     alt="profile"
                     className="h-[24px] w-[24px] overflow-hidden rounded-full"
                     width={24}
@@ -87,7 +87,7 @@ export default function Navbar() {
           </div>
           <div className="relative hidden items-center justify-center gap-1 md:flex md:gap-2">
             <Image
-              src="/fern.jpg"
+              src="/assets/Fern.jpg"
               alt="profile"
               className="h-[24px] w-[24px] overflow-hidden rounded-full"
               width={24}

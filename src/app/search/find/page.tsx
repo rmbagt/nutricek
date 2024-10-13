@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Content from "../../../components/find";
+import FindModule from "@/components/find/module";
 
-export default function Find() {
+export default function FindPage() {
   return (
     <div className="min-h-screen">
-      <Content />
+      <FindModule />
     </div>
   );
 }

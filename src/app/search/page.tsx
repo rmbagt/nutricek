@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Content from "../../components/search";
+import SearchModule from "@/components/search/module";
 
-export default function Search() {
+export default function SearchPage() {
   return (
     <div className="min-h-screen">
-      <Content />
+      <SearchModule />
     </div>
   );
 }

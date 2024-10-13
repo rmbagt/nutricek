@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/theme-provider";
-import Dashboard from "@/components/layout/dashboard";
+import { ThemeProvider } from "@/components/layout/theme-provider";
+
 import Landing from "@/components/layout/landing";
 import { Signika } from "next/font/google";
 
@@ -22,8 +22,7 @@ const signika = Signika({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-signika",
-}); 
-
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -36,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -46,7 +45,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <Dashboard>{children}</Dashboard> */}
           <Landing>{children}</Landing>
         </ThemeProvider>
       </body>

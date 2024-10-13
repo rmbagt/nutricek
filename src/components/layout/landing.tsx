@@ -1,5 +1,5 @@
-import Navbar from "../navbar";
-import Sidebar from "../sidebar";
+import Navbar from "./navbar";
+import Sidebar from "./sidebar";
 
 export default function Landing({ children }: { children: React.ReactNode }) {
   return (

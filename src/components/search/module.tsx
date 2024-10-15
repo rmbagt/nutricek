@@ -29,7 +29,7 @@ function SearchModule() {
             />
             <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
               <p>The Pumpkins Secrets</p>
-              <p className="text-sm">The Pumpkins Secrets</p>
+              <p className="text-sm font-light">The Pumpkins Secrets</p>
             </div>
           </div>
           <div className="relative flex flex-col">
@@ -42,7 +42,7 @@ function SearchModule() {
             />
             <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
               <p>The Pumpkins Secrets</p>
-              <p className="text-sm">The Pumpkins Secrets</p>
+              <p className="text-sm font-light">The Pumpkins Secrets</p>
             </div>
           </div>
           <div className="relative flex flex-col">
@@ -55,7 +55,7 @@ function SearchModule() {
             />
             <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
               <p>The Pumpkins Secrets</p>
-              <p className="text-sm">The Pumpkins Secrets</p>
+              <p className="text-sm font-light">The Pumpkins Secrets</p>
             </div>
           </div>
         </div>

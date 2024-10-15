@@ -25,7 +25,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="sticky bottom-0 p-5">
+    <div className="sticky bottom-0 p-5 z-100 bg-white">
       <div className="flex items-center justify-between">
         <Link href="/" onClick={() => handleLinkClick("home")}>
           <IoMdHome

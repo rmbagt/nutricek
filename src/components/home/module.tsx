@@ -4,18 +4,18 @@ import { MdArrowRight } from "react-icons/md";
 
 function HomeModule() {
   return (
-    <div className="text-center">
+    <div className="text-center z-20">
       {/* Header */}
-      <h1 className="font-signika text-2xl text-[#4cab52]">Hello Fern,</h1>
+      <h1 className="text-2xl text-[#4cab52] font-semibold">Hello Fern,</h1>
       <h3 className="text-base">Find, track and eat healthy food.</h3>
 
       {/* Article */}
       <div className="mt-5 flex w-full justify-between rounded-3xl bg-[#fff7ef] p-9">
         <div className="flex flex-col pr-10 text-left">
-          <h1>Article</h1>
-          <h2>The pros and cons of fast food</h2>
+          <h1 className="font-semibold">Article</h1>
+          <h2 className="font-semibold">The pros and cons of fast food</h2>
           <div className="mt-5 flex w-fit items-center justify-center rounded-xl bg-[#ff8473] p-2 px-5">
-            <p className="text-center text-white">Read Now</p>
+            <p className="text-center text-white font-semibold">Read Now</p>
             <MdArrowRight className="h-[30px] w-[30px] text-white" />
           </div>
         </div>
@@ -37,11 +37,11 @@ function HomeModule() {
 
       {/* Track your weekly progress */}
       <div className="mt-5 flex w-full items-center justify-between rounded-3xl bg-[#9e9bc7] p-9">
-        <p className="text-left text-xl text-white">
+        <p className="text-left text-xl text-white font-semibold">
           Track Your Weekly Progress
         </p>
         <div className="flex w-1/2 items-center justify-center bg-white p-2 px-5 text-center text-[#9e9bc7]">
-          <p className="text-sm">View Now</p>
+          <p className="text-sm font-semibold">View Now</p>
           <MdArrowRight className="h-[20px] w-[20px] text-[#9e9bc7]" />
         </div>
       </div>

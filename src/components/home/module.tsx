@@ -12,11 +12,11 @@ const FavoriteItems = [
     image: "/assets/Food.png",
   },
   {
-    name: "Meals",
+    name: "Meals2",
     image: "/assets/Food.png",
   },
   {
-    name: "Meals",
+    name: "Meals3",
     image: "/assets/Food.png",
   },
 ];
@@ -29,12 +29,12 @@ function HomeModule() {
       <h3 className="text-base">Find, track and eat healthy food.</h3>
 
       {/* Article */}
-      <div className="mt-5 flex w-full justify-between rounded-3xl bg-[#fff7ef] p-9">
+      <div className="mt-5 flex w-full justify-between rounded-[2.5rem] bg-[#fff7ef] p-9">
         <div className="flex flex-col pr-10 text-left">
-          <h1 className="font-semibold">Article</h1>
+          <h1 className="font-semibold text-[#ff806e]">Article</h1>
           <h2 className="font-semibold">The pros and cons of fast food</h2>
           <div className="mt-5 flex w-fit items-center justify-center rounded-xl bg-[#ff8473] p-2 px-5">
-            <p className="text-center font-semibold text-white">Read Now</p>
+            <p className="text-center font-semibold text-white text-xs">Read Now</p>
             <MdArrowRight className="h-[30px] w-[30px] text-white" />
           </div>
         </div>
@@ -55,7 +55,7 @@ function HomeModule() {
       </div>
 
       {/* Track your weekly progress */}
-      <div className="mt-5 flex w-full items-center justify-between gap-2 rounded-3xl bg-[#9e9bc7] p-9">
+      <div className="mt-5 flex w-full items-center justify-between gap-2 rounded-[2rem] bg-[#9e9bc7] p-9">
         <p className="w-1/2 text-left text-lg font-semibold text-white">
           Track Your Weekly Progress
         </p>
@@ -76,11 +76,11 @@ function HomeModule() {
             <Image
               src={item.image}
               alt={item.name}
-              className="h-12 w-10"
+              className="h-16 w-10"
               width={150}
               height={150}
             />
-            <p className="pt-2">{item.name}</p>
+            <p className="pt-4">{item.name}</p>
           </div>
         ))}
       </div>

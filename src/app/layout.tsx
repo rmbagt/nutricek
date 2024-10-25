@@ -36,17 +36,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`font-signika antialiased`}
-      >
-        <ThemeProvider
+      <body className={`font-signika antialiased`}>
+        {/* <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
-        >
-          <Landing>{children}</Landing>
-        </ThemeProvider>
+        > */}
+        <Landing>{children}</Landing>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );

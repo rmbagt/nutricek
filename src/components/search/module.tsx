@@ -2,6 +2,43 @@ import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import { IoAnalyticsOutline } from "react-icons/io5";
 
+const HotNowItems = [
+  {
+    name: "Pumpkin",
+    image: "/assets/Pumpkin.png",
+    description: "The Pumpkins Secrets",
+  },
+  {
+    name: "Lettuce",
+    image: "/assets/Lettuce.webp",
+    description: "The Pumpkins Secrets",
+  },
+  {
+    name: "Pumpkin",
+    image: "/assets/Pumpkin.png",
+    description: "The Pumpkins Secrets",
+  },
+];
+
+const TrendingItems = [
+  {
+    name: "best vegetable recipes",
+    icon: <IoAnalyticsOutline />,
+  },
+  {
+    name: "cool season vegetables",
+    icon: <IoAnalyticsOutline />,
+  },
+  {
+    name: "chicken recipes with eggs",
+    icon: <IoAnalyticsOutline />,
+  },
+  {
+    name: "soups",
+    icon: <IoAnalyticsOutline />,
+  },
+];
+
 function SearchModule() {
   return (
     <>
@@ -18,68 +55,37 @@ function SearchModule() {
       {/* Hot now section */}
       <div className="pt-6">
         <h1 className="pl-2 text-2xl">Hot now</h1>
-        <div className="flex gap-4 overflow-x-scroll pt-4">
-          <div className="relative flex flex-col">
-            <Image
-              src="/assets/Pumpkin.png"
-              alt="Pumpkin"
-              className="h-56 min-w-52 rounded-2xl"
-              width={100}
-              height={100}
-            />
-            <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
-              <p>The Pumpkins Secrets</p>
-              <p className="text-sm font-light">The Pumpkins Secrets</p>
+        <div className="flex gap-4 overflow-x-scroll px-4">
+          {HotNowItems.map((item) => (
+            <div key={item.name} className="relative my-4 flex flex-col">
+              <Image
+                src={item.image}
+                alt={item.name}
+                className="h-56 min-w-52 rounded-2xl"
+                width={100}
+                height={100}
+              />
+              <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
+                <p>{item.name}</p>
+                <p className="text-sm font-light">{item.description}</p>
+              </div>
             </div>
-          </div>
-          <div className="relative flex flex-col">
-            <Image
-              src="/assets/Lettuce.webp"
-              alt="Lettuce"
-              className="h-56 min-w-52 rounded-2xl"
-              width={100}
-              height={100}
-            />
-            <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
-              <p>The Pumpkins Secrets</p>
-              <p className="text-sm font-light">The Pumpkins Secrets</p>
-            </div>
-          </div>
-          <div className="relative flex flex-col">
-            <Image
-              src="/assets/Pumpkin.png"
-              alt="Pumpkin"
-              className="h-56 min-w-52"
-              width={100}
-              height={100}
-            />
-            <div className="absolute bottom-0 w-full rounded-b-xl bg-gray-100 p-2">
-              <p>The Pumpkins Secrets</p>
-              <p className="text-sm font-light">The Pumpkins Secrets</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
       {/* Trending */}
       <div>
         <h2 className="pt-14 text-2xl">Trending</h2>
-        <div className="flex items-center border-b border-b-gray-200 py-4 text-[#e2782c]">
-          <p>best vegetable recipes</p>
-          <IoAnalyticsOutline className="h-6 w-6 pl-2" />
-        </div>
-        <div className="flex items-center border-b border-b-gray-200 py-4 text-[#e2782c]">
-          <p>cool season vegetables</p>
-          <IoAnalyticsOutline className="h-6 w-6 pl-2" />
-        </div>
-        <div className="flex items-center border-b border-b-gray-200 py-4 text-[#e2782c]">
-          <p>chicken recipes with eggs</p>
-          <IoAnalyticsOutline className="h-6 w-6 pl-2" />
-        </div>
-        <div className="flex items-center border-b border-b-gray-200 py-4 text-[#e2782c]">
-          <p>soups</p>
-          <IoAnalyticsOutline className="h-6 w-6 pl-2" />
-        </div>
+        {TrendingItems.map((item) => (
+          <div
+            key={item.name}
+            className="flex items-center gap-2 border-b border-b-gray-200 py-4 text-[#e2782c]"
+          >
+            <p>{item.name}</p>
+            {item.icon}
+          </div>
+        ))}
       </div>
     </>
   );

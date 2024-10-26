@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Signika } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/layout/theme-provider";
-
 import Landing from "@/components/layout/landing";
-import { Signika } from "next/font/google";
+import SessionWrapper from "@/components/session-wrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,17 +35,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`font-signika antialiased`}>
-        {/* <ThemeProvider
+    <SessionWrapper>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`font-signika antialiased`}>
+          {/* <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         > */}
-        <Landing>{children}</Landing>
-        {/* </ThemeProvider> */}
-      </body>
-    </html>
+          <Landing>{children}</Landing>
+          {/* </ThemeProvider> */}
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }

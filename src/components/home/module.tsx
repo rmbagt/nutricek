@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { MdArrowRight } from "react-icons/md";
+import { Session } from "next-auth";
 
 const FavoriteItems = [
   {
@@ -21,11 +22,13 @@ const FavoriteItems = [
   },
 ];
 
-function HomeModule() {
+function HomeModule({ session }: { session: Session | null }) {
   return (
     <div className="z-20 text-center">
       {/* Header */}
-      <h1 className="text-2xl font-semibold text-[#4cab52]">Hello Fern,</h1>
+      <h1 className="text-2xl font-semibold text-[#4cab52]">
+        Hello {session?.user?.name},
+      </h1>
       <h3 className="text-base">Find, track and eat healthy food.</h3>
 
       {/* Article */}
@@ -34,7 +37,9 @@ function HomeModule() {
           <h1 className="font-semibold text-[#ff806e]">Article</h1>
           <h2 className="font-semibold">The pros and cons of fast food</h2>
           <div className="mt-5 flex w-fit items-center justify-center rounded-xl bg-[#ff8473] p-2 px-5">
-            <p className="text-center font-semibold text-white text-xs">Read Now</p>
+            <p className="text-center text-xs font-semibold text-white">
+              Read Now
+            </p>
             <MdArrowRight className="h-[30px] w-[30px] text-white" />
           </div>
         </div>

@@ -3,8 +3,6 @@ import localFont from "next/font/local";
 import { Signika } from "next/font/google";
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/layout/theme-provider";
-import Landing from "@/components/layout/landing";
 import SessionWrapper from "@/components/session-wrapper";
 
 const geistSans = localFont({
@@ -37,16 +35,7 @@ export default function RootLayout({
   return (
     <SessionWrapper>
       <html lang="en" suppressHydrationWarning>
-        <body className={`font-signika antialiased`}>
-          {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        > */}
-          <Landing>{children}</Landing>
-          {/* </ThemeProvider> */}
-        </body>
+        <body className={`font-signika antialiased`}>{children}</body>
       </html>
     </SessionWrapper>
   );

@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { IoPersonSharp } from "react-icons/io5";
-import {
-  IoIosCamera,
-} from "react-icons/io";
+import { IoIosCamera } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
 import { FiSearch } from "react-icons/fi";
 import { GoHeart } from "react-icons/go";
@@ -43,15 +41,15 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="sticky bottom-0 p-5 z-100 bg-white">
+    <div className="z-100 sticky bottom-0 bg-white p-5 md:px-8">
       <div className="relative flex items-center justify-between">
         <motion.div
-          className="absolute top-0 left-0 w-1/5 h-full"
+          className="absolute left-0 top-0 h-full w-1/5"
           initial={{ x: getXPosition(activeLink) }}
           animate={{ x: getXPosition(activeLink) }}
           transition={{ duration: 0.1 }}
         />
-        <Link href="/" onClick={() => handleLinkClick("home")}>
+        <Link href="/home" onClick={() => handleLinkClick("home")}>
           <motion.div
             className="relative z-10 text-4xl"
             initial={{ color: activeLink === "home" ? "#4cab52" : "#000000" }}
@@ -79,8 +77,12 @@ export default function Sidebar() {
         <Link href="/favorite" onClick={() => handleLinkClick("favorite")}>
           <motion.div
             className="relative z-10 text-4xl"
-            initial={{ color: activeLink === "favorite" ? "#4cab52" : "#000000" }}
-            animate={{ color: activeLink === "favorite" ? "#4cab52" : "#000000" }}
+            initial={{
+              color: activeLink === "favorite" ? "#4cab52" : "#000000",
+            }}
+            animate={{
+              color: activeLink === "favorite" ? "#4cab52" : "#000000",
+            }}
             transition={{ duration: 0.1 }}
           >
             <GoHeart />
@@ -89,8 +91,12 @@ export default function Sidebar() {
         <Link href="/profile" onClick={() => handleLinkClick("profile")}>
           <motion.div
             className="relative z-10 text-4xl"
-            initial={{ color: activeLink === "profile" ? "#4cab52" : "#000000" }}
-            animate={{ color: activeLink === "profile" ? "#4cab52" : "#000000" }}
+            initial={{
+              color: activeLink === "profile" ? "#4cab52" : "#000000",
+            }}
+            animate={{
+              color: activeLink === "profile" ? "#4cab52" : "#000000",
+            }}
             transition={{ duration: 0.1 }}
           >
             <IoPersonSharp />

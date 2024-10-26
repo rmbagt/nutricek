@@ -1,13 +1,17 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import authConfig from "./auth/authConfig";
 import { NextRequest } from "next/server";
 
 // 1. Use middleware directly
 // export const { auth: middleware } = NextAuth(authConfig);
 
+interface NextRequestWithNextUrl extends NextRequest {
+  auth: Session | null;
+}
+
 // 2. Wrapped middleware option
 const { auth } = NextAuth(authConfig);
-export default auth(async function middleware(req: NextRequest) {
+export default auth(async function middleware(req: NextRequestWithNextUrl) {
   if (req.nextUrl.pathname === "/") {
     const newUrl = new URL("/home", req.nextUrl.origin);
     return Response.redirect(newUrl);

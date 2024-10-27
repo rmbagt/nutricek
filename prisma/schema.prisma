@@ -44,19 +44,6 @@ model Session {
   @@map("sessions")
 }
 
-model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String?         @unique
-  emailVerified DateTime?       @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Authenticator Authenticator[]
-
-  @@map("users")
-}
-
 model VerificationToken {
   identifier String
   token      String
@@ -66,18 +53,31 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  products      Product[]
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("users")
+}
 
-  @@id([userId, credentialID])
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  details     String
+  grade       String
+  components  Json
+  ingredients String[]
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index(name)
+  @@map("products")
 }

@@ -29,7 +29,7 @@ export default function Sidebar() {
         return 0;
       case "search":
         return "20%";
-      case "camera":
+      case "scan":
         return "40%";
       case "favorite":
         return "60%";
@@ -69,7 +69,7 @@ export default function Sidebar() {
             <FiSearch />
           </motion.div>
         </Link>
-        <Link href="#">
+        <Link href="/scan" onClick={() => handleLinkClick("scan")}>
           <div className="relative z-10 rounded-full bg-[#4cab52] p-1">
             <IoIosCamera className="text-4xl text-white" />
           </div>

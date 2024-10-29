@@ -69,6 +69,7 @@ model User {
 model Product {
   id          String   @id @default(cuid())
   name        String
+  image       String
   category    String
   details     String
   grade       String

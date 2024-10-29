@@ -1,28 +1,21 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { MdArrowRight } from "react-icons/md";
 import { Session } from "next-auth";
-
-const FavoriteItems = [
-  {
-    name: "Drinks",
-    image: "/assets/Drink.png",
-  },
-  {
-    name: "Meals",
-    image: "/assets/Food.png",
-  },
-  {
-    name: "Meals2",
-    image: "/assets/Food.png",
-  },
-  {
-    name: "Meals3",
-    image: "/assets/Food.png",
-  },
-];
+import { useGetUserProducts } from "@/services/product-service";
+import Loading from "../loading";
 
 function HomeModule({ session }: { session: Session | null }) {
+  const userProductQueries = useGetUserProducts();
+
+  const FavoriteItems = userProductQueries.data;
+
+  if (userProductQueries.isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="z-20 text-center">
       {/* Header */}
@@ -72,22 +65,30 @@ function HomeModule({ session }: { session: Session | null }) {
 
       {/* Choose your favorite */}
       <h2 className="pt-7 text-left text-2xl">Choose Your Favorites</h2>
-      <div className="flex items-center gap-3 overflow-x-scroll p-5 text-center">
-        {FavoriteItems.map((item) => (
-          <div
-            key={item.name}
-            className="flex w-fit flex-col items-center justify-center rounded-[2rem] bg-[#eff7ee] p-5 px-12 text-center"
-          >
-            <Image
-              src={item.image}
-              alt={item.name}
-              className="h-16 w-10"
-              width={150}
-              height={150}
-            />
-            <p className="pt-4">{item.name}</p>
-          </div>
-        ))}
+      <div className="overflow-x-scroll">
+        <div className="flex w-max items-center gap-5 p-5 text-center">
+          {FavoriteItems?.map((item) => (
+            <div
+              key={item.name}
+              className="flex h-40 w-36 flex-col items-center justify-between gap-2 rounded-[2rem] bg-[#eff7ee] p-4 text-center"
+            >
+              <Image
+                src={item.image}
+                alt={item.name}
+                className="h-16 w-10 object-cover"
+                width={150}
+                height={150}
+              />
+              <div className="flex flex-col justify-start">
+                <p className="text-xs font-bold">
+                  {item.name.length > 25
+                    ? `${item.name.slice(0, 25)}...`
+                    : item.name}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

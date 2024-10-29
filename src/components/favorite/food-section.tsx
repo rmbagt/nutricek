@@ -1,33 +1,12 @@
+import { Product } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 
-const FoodItems = [
-  {
-    name: "Cupcake",
-    image: "/assets/Cupcake.png",
-  },
-  {
-    name: "Burger",
-    image: "/assets/Burger.png",
-  },
-  {
-    name: "Pizza",
-    image: "/assets/Pizza.png",
-  },
-  {
-    name: "Cookie",
-    image: "/assets/Cookie.png",
-  },
-  {
-    name: "Hot Dog",
-    image: "/assets/Hotdog.png",
-  },
-];
-
-function FoodSection() {
+function FoodSection({ FoodItems }: { FoodItems: Product[] }) {
   return (
     <div className="grid grid-cols-3 gap-4 pt-10">
-      {FoodItems.map((item) => (
+      {FoodItems?.map((item) => (
         <div
           key={item.name}
           className="flex items-center justify-center rounded-2xl bg-[#fff8ee] p-4"
@@ -41,9 +20,12 @@ function FoodSection() {
           />
         </div>
       ))}
-      <div className="flex items-center justify-center rounded-2xl bg-[#fff8ee] p-4">
-        <FaPlus className="text-5xl text-[#ffd485]" />
-      </div>
+      <Link
+        href={`/scan`}
+        className="flex items-center justify-center rounded-2xl bg-[#fff8ee] p-4 text-[#ffd485] transition-colors duration-200 hover:cursor-pointer hover:bg-[#fdc763ac] hover:text-white"
+      >
+        <FaPlus className="text-5xl" />
+      </Link>
     </div>
   );
 }

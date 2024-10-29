@@ -1,22 +1,27 @@
 "use client";
 
-import { ClassificationResult } from "@/types/product";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { X } from "lucide-react";
+import { ClassificationResult } from "@/types/product-types";
 
 export default function Result({
   classificationResult,
+  handleAddToFavorites,
   onClose,
+  loading,
 }: {
   classificationResult: ClassificationResult;
+  handleAddToFavorites: (data: ClassificationResult) => void;
   onClose: () => void;
+  loading: boolean;
 }) {
   const [readMore, setReadMore] = React.useState(false);
 
   if (!classificationResult || Object.keys(classificationResult).length === 0) {
     return (
-      <div className="h-[calc(100vh-2rem)] overflow-y-auto p-4">
+      <div className="h-[calc(100vh-8rem)] overflow-y-auto p-4">
         <button onClick={onClose} className="absolute right-4 top-4">
           <X className="h-6 w-6 text-gray-500" />
         </button>
@@ -34,7 +39,7 @@ export default function Result({
   }
 
   return (
-    <div className="h-[calc(100vh-2rem)] overflow-y-auto p-4">
+    <div className="h-[calc(100vh-8rem)] overflow-y-auto p-4">
       <button onClick={onClose} className="absolute right-4 top-4">
         <X className="h-6 w-6 text-gray-500" />
       </button>
@@ -54,7 +59,7 @@ export default function Result({
         <div>
           <p className="text-lg font-semibold text-rose-400">Calories</p>
           <p className="text-2xl font-bold">
-            {classificationResult.components.calories}
+            {classificationResult.components.calories}cal
           </p>
         </div>
         <div>
@@ -92,7 +97,11 @@ export default function Result({
       </div>
       <Button
         className="mt-8 w-full bg-green-500 text-lg font-semibold text-white transition-colors duration-200 hover:bg-green-700"
-        onClick={() => {}}
+        onClick={() => {
+          handleAddToFavorites(classificationResult);
+          toast("Product has been added to favorite!");
+        }}
+        disabled={loading}
       >
         Add to Favorites
       </Button>

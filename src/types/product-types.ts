@@ -1,8 +1,9 @@
 export interface ClassificationResult {
   name: string;
-  category: "food" | "drink";
+  image: string;
+  category: string;
   details: string;
-  grade: "A" | "B" | "C" | "D";
+  grade: string;
   components: {
     protein: number;
     calories: number;
@@ -10,4 +11,8 @@ export interface ClassificationResult {
     carbs: number;
   };
   ingredients: string[];
+}
+
+export interface UserProduct extends ClassificationResult {
+  id: string | undefined;
 }

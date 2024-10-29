@@ -34,12 +34,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionWrapper>
-      <QueryProvider>
+    <QueryProvider>
+      <SessionWrapper>
         <html lang="en" suppressHydrationWarning>
           <body className={`font-signika antialiased`}>{children}</body>
         </html>
-      </QueryProvider>
-    </SessionWrapper>
+      </SessionWrapper>
+    </QueryProvider>
   );
 }

@@ -5,9 +5,10 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import Image from "next/image";
 import React from "react";
 import axios from "axios";
-import { ClassificationResult } from "@/types/product";
+import { ClassificationResult } from "@/types/product-types";
 import Result from "@/components/scan/result";
 import { ScanBarcode } from "lucide-react";
+import { useAddProduct } from "@/services/product-service";
 
 export default function ScanPageClient() {
   const [file, setFile] = React.useState<File>();
@@ -19,6 +20,16 @@ export default function ScanPageClient() {
   const [classificationResult, setClassificationResult] =
     React.useState<ClassificationResult | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+
+  const addProductMutation = useAddProduct();
+
+  React.useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -41,14 +52,6 @@ export default function ScanPageClient() {
       setPreviewUrl(objectUrl);
     }
   };
-
-  React.useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
 
   const handleScan = async () => {
     if (!file) return;
@@ -104,10 +107,24 @@ export default function ScanPageClient() {
     }
   };
 
+  function handleAddToFavorites(data: ClassificationResult) {
+    addProductMutation.mutate({
+      name: data.name,
+      image: imageUrl,
+      category: data.category,
+      details: data.details,
+      grade: data.grade,
+      components: data.components,
+      ingredients: data.ingredients,
+    });
+
+    setIsDrawerOpen(false);
+  }
+
   const displayedImage = previewUrl || imageUrl;
 
   return (
-    <div className="min-h-screen space-y-6 px-4 pb-4">
+    <div className="min-h-screen space-y-6">
       <div className="mx-auto max-w-2xl space-y-3">
         <h2 className="text-2xl font-semibold leading-7">Scan Product</h2>
         <p className="text-sm leading-6 text-gray-400">
@@ -171,7 +188,7 @@ export default function ScanPageClient() {
             type="button"
             className="w-full bg-green-500 text-lg font-semibold transition-colors duration-200 hover:bg-green-600 disabled:bg-gray-400"
             onClick={handleScan}
-            disabled={!file || loading}
+            disabled={!file || loading || !!classificationResult}
           >
             {loading ? "Scanning..." : "Scan"}
           </Button>
@@ -195,7 +212,9 @@ export default function ScanPageClient() {
             {classificationResult && (
               <Result
                 classificationResult={classificationResult}
+                handleAddToFavorites={handleAddToFavorites}
                 onClose={() => setIsDrawerOpen(false)}
+                loading={addProductMutation.isPending}
               />
             )}
           </DrawerContent>

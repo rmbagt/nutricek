@@ -4,13 +4,29 @@ import { useState } from "react";
 import FoodSection from "./food-section";
 import DrinkSection from "./drink-section";
 import { motion, AnimatePresence } from "framer-motion";
+import { useGetUserProducts } from "@/services/product-service";
+import Loading from "../loading";
 
 function FavoriteModule() {
   const [activeSection, setActiveSection] = useState("food");
 
+  const userProductQueries = useGetUserProducts();
+
+  const FoodItems = userProductQueries.data?.filter(
+    (product) => product.category === "food",
+  );
+
+  const DrinkItems = userProductQueries.data?.filter(
+    (product) => product.category === "drink",
+  );
+
   const handleSectionClick = (section: string) => {
     setActiveSection(section);
   };
+
+  if (userProductQueries.isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -21,15 +37,15 @@ function FavoriteModule() {
 
       {/* Content */}
       <div className="mt-8 flex flex-col">
-        <div className="relative grid grid-cols-2 text-center bg-[#fff8ee] rounded-2xl">
+        <div className="relative grid grid-cols-2 rounded-2xl bg-[#fff8ee] text-center">
           <motion.div
-            className="absolute top-0 left-0 w-1/2 h-full bg-[#ff9385] rounded-2xl"
+            className="absolute left-0 top-0 h-full w-1/2 rounded-2xl bg-[#ff9385]"
             initial={{ x: activeSection === "food" ? 0 : "100%" }}
             animate={{ x: activeSection === "food" ? 0 : "100%" }}
             transition={{ duration: 0.3 }}
           />
           <div
-            className={`relative z-10 p-4 px-5 cursor-pointer ${
+            className={`relative z-10 cursor-pointer p-4 px-5 ${
               activeSection === "food" ? "text-white" : "text-[#ff9385]"
             }`}
             onClick={() => handleSectionClick("food")}
@@ -37,7 +53,7 @@ function FavoriteModule() {
             <p>Food</p>
           </div>
           <div
-            className={`relative z-10 p-4 px-5 cursor-pointer ${
+            className={`relative z-10 cursor-pointer p-4 px-5 ${
               activeSection === "drink" ? "text-white" : "text-[#ff9385]"
             }`}
             onClick={() => handleSectionClick("drink")}
@@ -54,7 +70,7 @@ function FavoriteModule() {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.5 }}
           >
-            <FoodSection />
+            <FoodSection FoodItems={FoodItems!} />
           </motion.div>
         ) : (
           <motion.div
@@ -64,7 +80,7 @@ function FavoriteModule() {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.5 }}
           >
-            <DrinkSection />
+            <DrinkSection DrinkItems={DrinkItems!} />
           </motion.div>
         )}
       </div>

@@ -6,11 +6,12 @@ import { MdArrowRight } from "react-icons/md";
 import { Session } from "next-auth";
 import { useGetUserProducts } from "@/services/product-service";
 import Loading from "../loading";
+import Link from "next/link";
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductQueries = useGetUserProducts();
 
-  const FavoriteItems = userProductQueries.data;
+  const FavoriteItems = userProductQueries.data?.products;
 
   if (userProductQueries.isLoading) {
     return <Loading />;
@@ -68,9 +69,10 @@ function HomeModule({ session }: { session: Session | null }) {
       <div className="overflow-x-scroll">
         <div className="flex w-max items-center gap-5 p-5 text-center">
           {FavoriteItems?.map((item) => (
-            <div
-              key={item.name}
-              className="flex h-40 w-36 flex-col items-center justify-between gap-2 rounded-[2rem] bg-[#eff7ee] p-4 text-center"
+            <Link
+              href={`/product/${item.id}`}
+              key={item.id}
+              className="flex h-40 w-36 flex-col items-center justify-between gap-2 rounded-[2rem] bg-[#eff7ee] p-4 text-center transition-all duration-200 hover:cursor-pointer hover:bg-[#bcfab1]"
             >
               <Image
                 src={item.image}
@@ -86,7 +88,7 @@ function HomeModule({ session }: { session: Session | null }) {
                     : item.name}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

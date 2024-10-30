@@ -12,11 +12,11 @@ function FavoriteModule() {
 
   const userProductQueries = useGetUserProducts();
 
-  const FoodItems = userProductQueries.data?.filter(
+  const FoodItems = userProductQueries.data?.products.filter(
     (product) => product.category === "food",
   );
 
-  const DrinkItems = userProductQueries.data?.filter(
+  const DrinkItems = userProductQueries.data?.products.filter(
     (product) => product.category === "drink",
   );
 

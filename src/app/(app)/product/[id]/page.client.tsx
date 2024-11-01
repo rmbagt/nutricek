@@ -66,7 +66,7 @@ export default function ProductPageClient({
         <Image
           src={productByIdQuery.data?.image as string}
           alt={productByIdQuery.data?.name as string}
-          className="h-80 rounded-lg object-cover md:h-full"
+          className="h-80 rounded-lg object-cover md:h-72 md:object-contain"
           width={600}
           height={600}
         />

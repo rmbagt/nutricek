@@ -1,6 +1,6 @@
 import React from "react";
 import ProductPageClient from "./page.client";
-import Loading from "@/components/loading";
+import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
 
 export default async function ProductPage({
   params,
@@ -10,7 +10,7 @@ export default async function ProductPage({
   const { id } = params;
 
   if (!id) {
-    return <Loading />;
+    return <LoadingSkeleton />;
   }
 
   return <ProductPageClient productId={id} />;

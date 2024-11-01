@@ -5,8 +5,9 @@ import Image from "next/image";
 import { MdArrowRight } from "react-icons/md";
 import { Session } from "next-auth";
 import { useGetUserProducts } from "@/services/product-service";
-import Loading from "../loading";
+import LoadingSkeleton from "../skeleton/loading-skeleton";
 import Link from "next/link";
+import FavoriteSlider from "./favorite-slider";
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductQueries = useGetUserProducts();
@@ -14,7 +15,7 @@ function HomeModule({ session }: { session: Session | null }) {
   const FavoriteItems = userProductQueries.data?.products;
 
   if (userProductQueries.isLoading) {
-    return <Loading />;
+    return <LoadingSkeleton />;
   }
 
   return (
@@ -65,33 +66,7 @@ function HomeModule({ session }: { session: Session | null }) {
       </div>
 
       {/* Choose your favorite */}
-      <h2 className="pt-7 text-left text-2xl">Choose Your Favorites</h2>
-      <div className="overflow-x-scroll">
-        <div className="flex w-max items-center gap-5 p-5 text-center">
-          {FavoriteItems?.map((item) => (
-            <Link
-              href={`/product/${item.id}`}
-              key={item.id}
-              className="flex h-40 w-36 flex-col items-center justify-between gap-2 rounded-[2rem] bg-[#eff7ee] p-4 text-center transition-all duration-200 hover:cursor-pointer hover:bg-[#bcfab1]"
-            >
-              <Image
-                src={item.image}
-                alt={item.name}
-                className="h-16 w-10 object-cover"
-                width={150}
-                height={150}
-              />
-              <div className="flex flex-col justify-start">
-                <p className="text-xs font-bold">
-                  {item.name.length > 25
-                    ? `${item.name.slice(0, 25)}...`
-                    : item.name}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
+      <FavoriteSlider FavoriteItems={FavoriteItems!} />
     </div>
   );
 }

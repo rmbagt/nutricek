@@ -5,7 +5,7 @@ import FoodSection from "./food-section";
 import DrinkSection from "./drink-section";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGetUserProducts } from "@/services/product-service";
-import Loading from "../loading";
+import LoadingSkeleton from "../skeleton/loading-skeleton";
 
 function FavoriteModule() {
   const [activeSection, setActiveSection] = useState("food");
@@ -25,7 +25,7 @@ function FavoriteModule() {
   };
 
   if (userProductQueries.isLoading) {
-    return <Loading />;
+    return <LoadingSkeleton />;
   }
 
   return (

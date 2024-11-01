@@ -17,7 +17,7 @@ function FoodSection({ FoodItems }: { FoodItems: Product[] }) {
             alt={item.name}
             width={100}
             height={100}
-            className="w-34 h-24"
+            className="w-34 h-24 rounded-lg object-cover"
           />
         </Link>
       ))}

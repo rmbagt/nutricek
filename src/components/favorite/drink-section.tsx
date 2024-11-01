@@ -17,7 +17,7 @@ function DrinkSection({ DrinkItems }: { DrinkItems: Product[] }) {
             alt={item.name}
             width={200}
             height={200}
-            className="h-24 w-20"
+            className="h-24 w-20 rounded-lg object-cover"
           />
           <div className="flex flex-col justify-center gap-1">
             <p className="text-sm text-[#6cb663]">

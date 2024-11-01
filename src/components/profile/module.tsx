@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { IoMdPerson, IoIosArrowBack } from "react-icons/io";
-import Loading from "../loading";
+import LoadingSkeleton from "../skeleton/loading-skeleton";
 
 function ProfileModule() {
   const { data: session } = useSession();
 
   if (!session) {
-    return <Loading />;
+    return <LoadingSkeleton />;
   }
 
   return (

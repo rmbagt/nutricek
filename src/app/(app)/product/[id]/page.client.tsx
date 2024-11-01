@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
 import { Button } from "@/components/ui/button";
 import {
   useAddToFavorites,
@@ -19,7 +20,6 @@ export default function ProductPageClient({
   productId: string;
 }) {
   const router = useRouter();
-  const [readMore, setReadMore] = React.useState(false);
   const [isAddedToFavorites, setIsAddedToFavorites] = React.useState(false);
 
   const productByIdQuery = useGetProductById(productId);
@@ -47,7 +47,9 @@ export default function ProductPageClient({
     removeFromFavoritesMutation.mutate(productId);
   }
 
-  console.log(productByIdQuery);
+  if (productByIdQuery.isLoading || userProductQueries.isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="min-h-svh overflow-y-auto p-4">

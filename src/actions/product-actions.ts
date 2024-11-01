@@ -4,6 +4,12 @@ import { auth } from "@/auth/authOptions";
 import { prisma } from "@/lib/db";
 import { ClassificationResult } from "@/types/product-types";
 
+export async function getAllProducts() {
+  const response = await prisma.product.findMany();
+
+  return response;
+}
+
 export async function addProduct(data: ClassificationResult) {
   const session = await auth();
 

@@ -1,6 +1,14 @@
+"use client";
+
+import { useGetAllProducts } from "@/services/product-service";
+import { Product } from "@prisma/client";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { FiSearch } from "react-icons/fi";
-import { IoAnalyticsOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { CiSearch } from "react-icons/ci";
+import { IoAnalyticsOutline, IoCloseOutline } from "react-icons/io5";
+import { RiShoppingBasket2Fill } from "react-icons/ri";
 
 const HotNowItems = [
   {
@@ -39,56 +47,183 @@ const TrendingItems = [
   },
 ];
 
-function SearchModule() {
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 },
+};
+
+const staggerChildren = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+export default function SearchModule() {
+  const router = useRouter();
+  const [search, setSearch] = React.useState("");
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const allProductsQuery = useGetAllProducts();
+
+  React.useEffect(() => {
+    if (allProductsQuery.data) {
+      setProducts(allProductsQuery.data);
+    }
+  }, [allProductsQuery.data]);
+
+  const filteredProducts =
+    search.length > 0
+      ? products.filter((product) =>
+          product.name.toLowerCase().includes(search.toLowerCase()),
+        )
+      : [];
+
+  const handleProductClick = (productId: string) => {
+    router.push(`/product/${productId}`);
+  };
+
   return (
-    <>
-      {/* Search */}
-      <a href="/search/find">
-        <div className="flex items-center rounded-3xl bg-[#f4f4f4] p-5 text-left">
-          <FiSearch className="text-[#b3b3b3]"/>
-          <p className="w-full bg-[#f4f4f4] pl-2 text-[#b3b3b3]">
-            Search recipes, articles, people...
-          </p>
+    <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="min-h-screen bg-white pb-16"
+    >
+      {/* Search Bar */}
+      <motion.div className="px-4" variants={fadeInUp}>
+        <div className="relative flex items-center rounded-full bg-[#f4f4f4] px-4 py-3">
+          <CiSearch className="text-gray-400" />
+          <input
+            className="flex-1 bg-transparent px-2 text-sm outline-none"
+            type="text"
+            placeholder="Search recipes, articles, people..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <AnimatePresence>
+            {search && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                onClick={() => setSearch("")}
+              >
+                <IoCloseOutline className="text-gray-400" />
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
-      </a>
+      </motion.div>
 
-      {/* Hot now section */}
-      <div className="pt-6">
-        <h1 className="pl-2 text-2xl">Hot now</h1>
-        <div className="flex gap-4 overflow-x-scroll">
-          {HotNowItems.map((item) => (
-            <div key={item.name} className="relative my-4 flex flex-col">
-              <Image
-                src={item.image}
-                alt={item.name}
-                className="h-56 min-w-52 rounded-2xl"
-                width={100}
-                height={100}
-              />
-              <div className="absolute bottom-0 w-full rounded-b-xl bg-[#fcfcfc] p-2 pb-">
-                <p>{item.name}</p>
-                <p className="text-sm font-light">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Trending */}
-      <div>
-        <h2 className="pt-6 text-2xl">Trending</h2>
-        {TrendingItems.map((item) => (
-          <div
-            key={item.name}
-            className="flex items-center gap-2 border-b border-b-gray-200 py-4 text-[#e2782c]"
+      {/* Search Results */}
+      <AnimatePresence>
+        {search.length > 0 && (
+          <motion.div
+            className="px-4"
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={fadeInUp}
           >
-            <p>{item.name}</p>
-            {item.icon}
-          </div>
-        ))}
-      </div>
-    </>
+            {filteredProducts.length === 0 ? (
+              <motion.div
+                className="flex flex-col items-center justify-center pt-48 text-center"
+                variants={fadeInUp}
+              >
+                <RiShoppingBasket2Fill className="flex h-48 w-48 text-gray-400" />
+                <h2 className="text-xl">No Results Found</h2>
+                <p className="text-sm">
+                  Try searching for a different keyword or tweek your search a
+                  little
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div className="mt-4 space-y-4" variants={staggerChildren}>
+                {filteredProducts.map((product) => (
+                  <motion.button
+                    key={product.id}
+                    className="flex w-full items-center gap-4 rounded-lg p-2 hover:bg-gray-50"
+                    onClick={() => handleProductClick(product.id)}
+                    variants={fadeInUp}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      className="h-12 w-12 rounded-full object-cover"
+                      width={48}
+                      height={48}
+                    />
+                    <p className="text-left text-sm">{product.name}</p>
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Home Content */}
+      <AnimatePresence>
+        {!search && (
+          <motion.div initial="initial" animate="animate" exit="exit">
+            {/* Hot Now Section */}
+            <motion.div className="px-4 pt-6" variants={fadeInUp}>
+              <h2 className="mb-4 text-xl font-semibold">Hot Now</h2>
+              <motion.div
+                className="flex gap-4 overflow-x-auto pb-4"
+                variants={staggerChildren}
+              >
+                {HotNowItems.map((item) => (
+                  <motion.div
+                    key={item.name}
+                    className="relative min-w-[240px] overflow-hidden rounded-2xl"
+                    variants={fadeInUp}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      className="h-[200px] w-full object-cover"
+                      width={240}
+                      height={200}
+                    />
+                    <div className="absolute bottom-0 w-full bg-white/95 p-3">
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {item.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            {/* Trending Section */}
+            <motion.div className="px-4 pt-6" variants={fadeInUp}>
+              <h2 className="mb-4 text-xl font-semibold">Trending</h2>
+              <motion.div className="space-y-4" variants={staggerChildren}>
+                {TrendingItems.map((item) => (
+                  <motion.div
+                    key={item.name}
+                    className="flex items-center justify-between border-b border-gray-100 pb-4"
+                    variants={fadeInUp}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <p className="text-[#e2782c]">{item.name}</p>
+                    <IoAnalyticsOutline className="text-[#e2782c]" />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
-
-export default SearchModule;

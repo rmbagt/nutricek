@@ -10,20 +10,20 @@ export default function FavoriteSlider({
 }) {
   return (
     <div>
-      <h2 className="pt-7 text-left text-2xl">Choose Your Favorites</h2>
+      <h2 className="text-left text-2xl">Choose Your Favorites</h2>
       {FavoriteItems?.length ? (
         <div className="overflow-x-scroll">
-          <div className="flex w-max items-center gap-5 p-5 text-center">
+          <div className="flex w-max items-center gap-4 p-4 text-center">
             {FavoriteItems?.map((item) => (
               <Link
                 href={`/product/${item.id}`}
                 key={item.id}
-                className="flex h-40 w-36 flex-col items-center justify-between gap-2 rounded-[2rem] bg-[#eff7ee] p-4 text-center transition-all duration-200 hover:cursor-pointer hover:bg-[#bcfab1]"
+                className="flex h-40 w-36 flex-col items-center justify-between gap-2 rounded-2xl bg-[#eff7ee] p-4 text-center transition-all duration-200 hover:cursor-pointer hover:bg-[#bcfab1]"
               >
                 <Image
                   src={item.image}
                   alt={item.name}
-                  className="h-16 w-10 rounded-lg object-cover"
+                  className="h-16 w-16 rounded-lg object-cover"
                   width={150}
                   height={150}
                 />

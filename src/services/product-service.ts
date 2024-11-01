@@ -1,6 +1,7 @@
 import {
   addProduct,
   addToFavorites,
+  getAllProducts,
   getProductById,
   getUserProducts,
   removeFromFavorites,
@@ -8,6 +9,17 @@ import {
 import { ClassificationResult } from "@/types/product-types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+
+export const useGetAllProducts = () => {
+  return useQuery({
+    queryKey: ["getAllProducts"],
+    queryFn: async () => {
+      const response = await getAllProducts();
+
+      return response;
+    },
+  });
+};
 
 export const useAddProduct = () => {
   const queryClient = useQueryClient();
@@ -27,6 +39,9 @@ export const useAddProduct = () => {
       } else {
         await queryClient.invalidateQueries({
           queryKey: ["getUserProducts"],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["getAllProducts"],
         });
       }
     },

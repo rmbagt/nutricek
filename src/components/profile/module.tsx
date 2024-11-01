@@ -15,8 +15,8 @@ function ProfileModule() {
   return (
     <>
       <div className="items-center justify-center text-center">
-        <h2>Profile</h2>
-        <div className="flex justify-center pt-10">
+        <h2 className="text-xl font-bold">Profile</h2>
+        <div className="flex justify-center py-5">
           <Image
             src={`${session?.user?.image} `}
             alt="Profile"
@@ -25,12 +25,12 @@ function ProfileModule() {
             height={100}
           />
         </div>
-        <h1 className="pt-5 text-2xl">{`${session?.user?.name}`}</h1>
+        <h1 className="text-2xl">{`${session?.user?.name}`}</h1>
         <p>Food Blogger</p>
       </div>
-      <div>
+      <div className="flex flex-col gap-2 py-4">
         <div
-          className="mt-10 flex w-full cursor-pointer items-center rounded-lg p-2 transition-colors duration-200 hover:bg-[#fff8ee]"
+          className="flex w-full cursor-pointer items-center rounded-lg bg-[#fcf3e6] p-4 transition-colors duration-200 hover:bg-[#fadeb6]"
           onClick={() => signOut({ callbackUrl: "/login" })}
         >
           <div className="rounded-lg bg-[#fff8ee]">

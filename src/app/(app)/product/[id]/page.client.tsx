@@ -23,13 +23,13 @@ export default function ProductPageClient({
   const [isAddedToFavorites, setIsAddedToFavorites] = React.useState(false);
 
   const productByIdQuery = useGetProductById(productId);
-  const userProductQueries = useGetUserProducts();
+  const userProductsQuery = useGetUserProducts();
   const addToFavoritesMutation = useAddToFavorites();
   const removeFromFavoritesMutation = useRemoveFromFavorites();
 
   React.useEffect(() => {
-    if (userProductQueries.data?.products) {
-      const isAdded = userProductQueries.data?.products.find(
+    if (userProductsQuery.data?.products) {
+      const isAdded = userProductsQuery.data?.products.find(
         (product) => product.id === productId,
       );
 
@@ -37,7 +37,7 @@ export default function ProductPageClient({
         setIsAddedToFavorites(true);
       }
     }
-  }, [userProductQueries.data?.products, productId]);
+  }, [userProductsQuery.data?.products, productId]);
 
   function handleAddToFavorites(productId: string) {
     addToFavoritesMutation.mutate(productId);
@@ -47,7 +47,7 @@ export default function ProductPageClient({
     removeFromFavoritesMutation.mutate(productId);
   }
 
-  if (productByIdQuery.isLoading || userProductQueries.isLoading) {
+  if (productByIdQuery.isLoading || userProductsQuery.isLoading) {
     return <LoadingSkeleton />;
   }
 

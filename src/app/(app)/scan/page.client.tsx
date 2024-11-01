@@ -126,7 +126,7 @@ export default function ScanPageClient() {
   return (
     <div className="min-h-screen space-y-6">
       <div className="mx-auto max-w-2xl space-y-2">
-        <h2 className="text-xl font-bold">Scan Product</h2>
+        <h2 className="text-center text-xl font-bold">Scan Product</h2>
         <p className="text-sm text-gray-400">
           Upload an image of a food or drink product (JPG, JPEG, or PNG, max
           10MB)
@@ -172,6 +172,7 @@ export default function ScanPageClient() {
                       name="file-upload"
                       className="sr-only"
                       onChange={handleFileChange}
+                      capture="environment"
                     />
                   </label>
                 </div>

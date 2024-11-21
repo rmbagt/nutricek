@@ -73,7 +73,7 @@ function FavoriteModule() {
               transition={{ duration: 0.5 }}
             >
               {FoodItems?.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-2 pt-28 text-center">
+                <div className="flex flex-col items-center justify-center gap-2 pt-28 text-center text-gray-400">
                   <Image
                     src="/assets/Ingredients.png"
                     alt="Ingredients"
@@ -100,7 +100,7 @@ function FavoriteModule() {
               transition={{ duration: 0.5 }}
             >
               {DrinkItems?.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-2 pt-28 text-center">
+                <div className="flex flex-col items-center justify-center gap-2 pt-28 text-center text-gray-400">
                   <Image
                     src="/assets/Ingredients.png"
                     alt="Ingredients"

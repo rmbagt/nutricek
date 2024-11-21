@@ -48,8 +48,8 @@ function HomeModule({ session }: { session: Session | null }) {
   return (
     <div className="z-20 text-center">
       {/* Header */}
-      <h1 className="text-2xl font-semibold text-[#4cab52]">
-        Hello {session?.user?.name},
+      <h1 className="text-3xl font-semibold text-[#4cab52]">
+        Hello {session?.user?.name}!
       </h1>
       <h3 className="text-base">Find, track and eat healthy food.</h3>
 

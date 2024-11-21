@@ -2,6 +2,7 @@ import { Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { IoHeart } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 
 function DrinkSection({ DrinkItems }: { DrinkItems: Product[] }) {
   return (
@@ -29,6 +30,12 @@ function DrinkSection({ DrinkItems }: { DrinkItems: Product[] }) {
           <IoHeart className="absolute right-5 top-5 text-[#4cab52]" />
         </Link>
       ))}
+      <Link
+        href={`/scan`}
+        className="flex items-center justify-center rounded-2xl bg-[#eff7ee] p-4 text-[#4cab52] transition-colors duration-200 hover:cursor-pointer hover:bg-[#bcfab1] hover:text-white"
+      >
+        <FaPlus className="text-5xl" />
+      </Link>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function FavoriteSlider({
 }) {
   return (
     <div>
-      <h2 className="mb-4 text-left text-2xl font-semibold text-[#4cab52]">
+      <h2 className="mb-4 mt-8 text-left text-2xl font-semibold text-[#4cab52]">
         Choose Your Favorites
       </h2>
       {FavoriteItems?.length ? (
@@ -29,8 +29,8 @@ export default function FavoriteSlider({
                   width={150}
                   height={150}
                 />
-                <div className="flex flex-col justify-start">
-                  <p className="text-xs font-bold">
+                <div className="flex flex-col justify-center items-center h-10">
+                  <p className="text-center text-xs font-bold">
                     {item.name.length > 25
                       ? `${item.name.slice(0, 25)}...`
                       : item.name}
@@ -41,7 +41,7 @@ export default function FavoriteSlider({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-2 py-4">
+        <div className="flex flex-col items-center justify-center gap-2 py-4 text-gray-400">
           <p className="text-xl font-semibold">No favorite items</p>
           <p className="text-sm">Add your favorite items to track them</p>
         </div>

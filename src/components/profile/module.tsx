@@ -26,9 +26,9 @@ function ProfileModule() {
           />
         </div>
         <h1 className="text-2xl">{`${session?.user?.name}`}</h1>
-        <p>Food Blogger</p>
+        <p className="text-sm text-[#ff9385]"><strong>Food Blogger</strong></p>
       </div>
-      <div className="flex flex-col gap-2 py-4">
+      <div className="flex flex-col gap-2 py-6">
         <div
           className="flex w-full cursor-pointer items-center rounded-lg bg-[#fcf3e6] p-4 transition-colors duration-200 hover:bg-[#fadeb6]"
           onClick={() => signOut({ callbackUrl: "/login" })}

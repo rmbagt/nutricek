@@ -17,7 +17,7 @@ export default function ArticleList({
   UserArticles: UserArticle[];
 }) {
   return (
-    <div className="mt-2">
+    <div className="mt-8">
       <h2 className="mb-4 text-left text-2xl font-semibold text-[#4cab52]">
         Your Articles
       </h2>
@@ -60,7 +60,7 @@ export default function ArticleList({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-2 py-4">
+        <div className="flex flex-col items-center justify-center gap-2 py-4 text-gray-400">
           <p className="text-xl font-semibold">
             You don&apos;t have any article yet
           </p>

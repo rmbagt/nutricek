@@ -63,6 +63,7 @@ model User {
   sessions      Session[]
   products      Product[]
   articles      Article[]
+  likes         Like[]
 
   @@map("users")
 }
@@ -90,10 +91,23 @@ model Article {
   content   String
   image     String
   category  String
+  views     Int      @default(0)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  likes     Like[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
 
   @@map("articles")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  articleId String   @map("article_id")
+  user      User     @relation(fields: [userId], references: [id])
+  article   Article  @relation(fields: [articleId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("likes")
 }

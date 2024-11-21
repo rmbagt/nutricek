@@ -9,6 +9,8 @@ import LoadingSkeleton from "../skeleton/loading-skeleton";
 import { ArticleSlider } from "./article-slider";
 import { Button } from "@/components/ui/button";
 import FavoriteSlider from "./favorite-slider";
+import { useGetUserArticles } from "@/services/article-service";
+import ArticleList from "./article-list";
 
 // Mock data for articles
 const mockArticles = [
@@ -34,10 +36,12 @@ const mockArticles = [
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductsQuery = useGetUserProducts();
+  const userArticlesQuery = useGetUserArticles();
 
   const FavoriteItems = userProductsQuery.data?.products;
+  const UserArticles = userArticlesQuery.data;
 
-  if (userProductsQuery.isLoading) {
+  if (userProductsQuery.isLoading || userArticlesQuery.isLoading) {
     return <LoadingSkeleton />;
   }
 
@@ -70,6 +74,18 @@ function HomeModule({ session }: { session: Session | null }) {
 
       {/* Choose your favorite */}
       <FavoriteSlider FavoriteItems={FavoriteItems!} />
+
+      {/* Your article */}
+      <ArticleList
+        UserArticles={
+          UserArticles?.articles.map((article) => ({
+            ...article,
+            likes: UserArticles.likes.filter(
+              (like) => like.articleId === article.id,
+            ),
+          })) || []
+        }
+      />
     </div>
   );
 }

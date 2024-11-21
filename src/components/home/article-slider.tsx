@@ -12,6 +12,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface ArticleCardProps {
   title: string;
@@ -73,13 +74,15 @@ export function ArticleCard({ title, image, category }: ArticleCardProps) {
             {category}
           </span>
         </div>
-        <Button
-          variant="default"
-          className="w-full bg-[#ff8473] hover:bg-[#ff6b59]"
-        >
-          Read Now
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link href="/article/1" className="w-full">
+          <Button
+            variant="default"
+            className="w-full bg-[#ff8473] hover:bg-[#ff6b59]"
+          >
+            Read Now
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );

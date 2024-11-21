@@ -10,7 +10,9 @@ export default function FavoriteSlider({
 }) {
   return (
     <div>
-      <h2 className="text-left text-2xl">Choose Your Favorites</h2>
+      <h2 className="mb-4 text-left text-2xl font-semibold text-[#4cab52]">
+        Choose Your Favorites
+      </h2>
       {FavoriteItems?.length ? (
         <div className="overflow-x-scroll">
           <div className="flex w-max items-center gap-4 p-4 text-center">

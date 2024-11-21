@@ -13,25 +13,21 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { capitalCase } from "change-case";
+import { Article } from "@prisma/client";
 
 interface ArticleCardProps {
-  title: string;
-  image: string;
-  category: string;
-}
-
-interface Article {
   id: string;
   title: string;
   image: string;
   category: string;
 }
 
-interface ArticleSliderProps {
-  articles: Article[];
-}
-
-export function ArticleSlider({ articles }: ArticleSliderProps) {
+export function ArticleSlider({
+  TrendingArticles,
+}: {
+  TrendingArticles: Article[];
+}) {
   return (
     <Carousel
       opts={{
@@ -40,14 +36,10 @@ export function ArticleSlider({ articles }: ArticleSliderProps) {
       className="relative w-full"
     >
       <CarouselContent>
-        {articles.map((article) => (
+        {TrendingArticles?.map((article) => (
           <CarouselItem key={article.id} className="basis-full">
             <div className="p-1">
-              <ArticleCard
-                title={article.title}
-                image={article.image}
-                category={article.category}
-              />
+              <ArticleCard {...article} />
             </div>
           </CarouselItem>
         ))}
@@ -58,7 +50,7 @@ export function ArticleSlider({ articles }: ArticleSliderProps) {
   );
 }
 
-export function ArticleCard({ title, image, category }: ArticleCardProps) {
+export function ArticleCard({ id, title, image, category }: ArticleCardProps) {
   return (
     <Card className="relative w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -71,10 +63,10 @@ export function ArticleCard({ title, image, category }: ArticleCardProps) {
             {title}
           </h2>
           <span className="text-xs font-semibold text-[#ff806e] sm:text-sm">
-            {category}
+            {capitalCase(category)}
           </span>
         </div>
-        <Link href="/article/1" className="w-full">
+        <Link href={`/article/${id}`} className="w-full">
           <Button
             variant="default"
             className="w-full bg-[#ff8473] hover:bg-[#ff6b59]"

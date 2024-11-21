@@ -1,51 +1,20 @@
 "use client";
 
+import {
+  useGetPopularArticles,
+  useGetTrendingArticles,
+} from "@/services/article-service";
 import { useGetAllProducts } from "@/services/product-service";
 import { Product } from "@prisma/client";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoAnalyticsOutline, IoCloseOutline } from "react-icons/io5";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
-
-const HotNowItems = [
-  {
-    name: "Pumpkin",
-    image: "/assets/Pumpkin.png",
-    description: "The Pumpkins Secrets",
-  },
-  {
-    name: "Lettuce",
-    image: "/assets/Lettuce.webp",
-    description: "The Pumpkins Secrets",
-  },
-  {
-    name: "Pumpkins",
-    image: "/assets/Pumpkin.png",
-    description: "The Pumpkins Secrets",
-  },
-];
-
-const TrendingItems = [
-  {
-    name: "best vegetable recipes",
-    icon: <IoAnalyticsOutline />,
-  },
-  {
-    name: "cool season vegetables",
-    icon: <IoAnalyticsOutline />,
-  },
-  {
-    name: "chicken recipes with eggs",
-    icon: <IoAnalyticsOutline />,
-  },
-  {
-    name: "soups",
-    icon: <IoAnalyticsOutline />,
-  },
-];
+import LoadingSkeleton from "../skeleton/loading-skeleton";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -63,26 +32,41 @@ const staggerChildren = {
 
 export default function SearchModule() {
   const router = useRouter();
-  const [search, setSearch] = React.useState("");
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState<Product[]>([]);
+
   const allProductsQuery = useGetAllProducts();
+  const popularArticlesQuery = useGetPopularArticles();
+  const trendingArticlesQuery = useGetTrendingArticles();
+
+  const allProducts = allProductsQuery.data;
+  const popularArticles = popularArticlesQuery.data;
+  const trendingArticles = trendingArticlesQuery.data;
 
   React.useEffect(() => {
-    if (allProductsQuery.data) {
-      setProducts(allProductsQuery.data);
+    if (allProducts) {
+      setSearchResults(allProducts);
     }
-  }, [allProductsQuery.data]);
+  }, [allProducts]);
 
   const filteredProducts =
-    search.length > 0
-      ? products.filter((product) =>
-          product.name.toLowerCase().includes(search.toLowerCase()),
+    searchQuery.length > 0
+      ? searchResults.filter((product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()),
         )
       : [];
 
   const handleProductClick = (productId: string) => {
     router.push(`/product/${productId}`);
   };
+
+  if (
+    allProductsQuery.isLoading ||
+    popularArticlesQuery.isLoading ||
+    trendingArticlesQuery.isLoading
+  ) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <motion.div
@@ -98,17 +82,17 @@ export default function SearchModule() {
           <input
             className="flex-1 bg-transparent px-2 text-sm outline-none"
             type="text"
-            placeholder="Search products, articles, people..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <AnimatePresence>
-            {search && (
+            {searchQuery && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                onClick={() => setSearch("")}
+                onClick={() => setSearchQuery("")}
               >
                 <IoCloseOutline className="text-gray-400" />
               </motion.button>
@@ -119,7 +103,7 @@ export default function SearchModule() {
 
       {/* Search Results */}
       <AnimatePresence>
-        {search.length > 0 && (
+        {searchQuery.length > 0 && (
           <motion.div
             className="px-4"
             initial="initial"
@@ -168,7 +152,7 @@ export default function SearchModule() {
 
       {/* Home Content */}
       <AnimatePresence>
-        {!search && (
+        {!searchQuery && (
           <motion.div initial="initial" animate="animate" exit="exit">
             {/* Hot Now Section */}
             <motion.div className="px-4 pt-6" variants={fadeInUp}>
@@ -177,28 +161,30 @@ export default function SearchModule() {
                 className="flex gap-4 overflow-x-auto pb-4"
                 variants={staggerChildren}
               >
-                {HotNowItems.map((item) => (
-                  <motion.div
-                    key={item.name}
-                    className="relative min-w-[240px] overflow-hidden rounded-2xl"
-                    variants={fadeInUp}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      className="h-[200px] w-full object-cover"
-                      width={240}
-                      height={200}
-                    />
-                    <div className="absolute bottom-0 w-full bg-white/95 p-3">
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">
-                        {item.description}
-                      </p>
-                    </div>
-                  </motion.div>
+                {popularArticles?.map((item) => (
+                  <Link href={`/article/${item.id}`} key={item.title}>
+                    <motion.div
+                      key={item.title}
+                      className="relative min-w-[240px] overflow-hidden rounded-2xl"
+                      variants={fadeInUp}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        className="h-[200px] w-full object-cover"
+                        width={240}
+                        height={200}
+                      />
+                      <div className="absolute bottom-0 w-full bg-white/95 p-3">
+                        <p className="font-medium">{item.title}</p>
+                        <p className="text-sm text-gray-500">
+                          {item.content.substring(0, 50)}...
+                        </p>
+                      </div>
+                    </motion.div>
+                  </Link>
                 ))}
               </motion.div>
             </motion.div>
@@ -207,17 +193,18 @@ export default function SearchModule() {
             <motion.div className="px-4 pt-6" variants={fadeInUp}>
               <h2 className="mb-4 text-xl font-semibold">Trending</h2>
               <motion.div className="space-y-4" variants={staggerChildren}>
-                {TrendingItems.map((item) => (
-                  <motion.div
-                    key={item.name}
-                    className="flex items-center justify-between border-b border-gray-100 pb-4"
-                    variants={fadeInUp}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <p className="text-[#e2782c]">{item.name}</p>
-                    <IoAnalyticsOutline className="text-[#e2782c]" />
-                  </motion.div>
+                {trendingArticles?.map((item) => (
+                  <Link href={`/article/${item.id}`} key={item.title}>
+                    <motion.div
+                      className="flex items-center justify-between border-b border-gray-100 pb-4"
+                      variants={fadeInUp}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <p className="text-[#e2782c]">{item.title}</p>
+                      <IoAnalyticsOutline className="text-[#e2782c]" />
+                    </motion.div>
+                  </Link>
                 ))}
               </motion.div>
             </motion.div>

@@ -13,8 +13,6 @@ import {
   useGetArticleById,
   useRemoveArticleLikes,
 } from "@/services/article-service";
-import { Prisma } from "@prisma/client";
-import { useSession } from "next-auth/react";
 
 export default function ArticlePageClient({
   articleId,

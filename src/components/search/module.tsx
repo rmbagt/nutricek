@@ -98,7 +98,7 @@ export default function SearchModule() {
           <input
             className="flex-1 bg-transparent px-2 text-sm outline-none"
             type="text"
-            placeholder="Search recipes, articles, people..."
+            placeholder="Search products, articles, people..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

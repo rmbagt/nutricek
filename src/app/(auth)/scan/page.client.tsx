@@ -127,7 +127,7 @@ export default function ScanPageClient() {
     <div className="min-h-screen space-y-6">
       <div className="mx-auto max-w-2xl space-y-2">
         <h2 className="text-center text-xl font-bold">Scan Product</h2>
-        <p className="text-sm text-gray-400">
+        <p className="text-center text-sm text-gray-400">
           Upload an image of a food or drink product (JPG, JPEG, or PNG, max
           10MB)
         </p>
@@ -141,7 +141,7 @@ export default function ScanPageClient() {
                   alt="Selected Image"
                   width={400}
                   height={400}
-                  className="h-[400px] w-[400px] rounded-lg object-scale-down"
+                  className="h-[400px] w-[400px] rounded-lg border object-scale-down shadow-md"
                 />
                 <Button
                   type="button"

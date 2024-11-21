@@ -1,29 +1,38 @@
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { IoHeart } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 
 function FoodSection({ FoodItems }: { FoodItems: Product[] }) {
   return (
-    <div className="grid grid-cols-3 gap-4 pt-10">
+    <div className="flex flex-col gap-4 pt-10">
       {FoodItems?.map((item) => (
         <Link
           href={`/product/${item.id}`}
           key={item.id}
-          className="flex items-center justify-center rounded-2xl bg-[#fff8ee] p-4 text-[#ffd485] transition-colors duration-200 hover:cursor-pointer hover:bg-[#fdc763ac]"
+          className="relative flex h-40 w-full items-center gap-2 rounded-2xl bg-[#eff7ee] p-4 transition-all duration-200 hover:cursor-pointer hover:bg-[#bcfab1]"
         >
           <Image
             src={item.image}
             alt={item.name}
             width={100}
             height={100}
-            className="w-34 h-24 rounded-lg object-cover"
+            className="h-24 w-20 rounded-lg object-cover"
           />
+          <div className="flex flex-col justify-center gap-1">
+            <p className="text-sm text-[#6cb663]">
+              {(item.components as { calories: number }).calories} Kcal
+            </p>
+            <p className="font-semibold md:text-xl">{item.name}</p>
+            <p className="text-sm">{item.details.slice(0, 50)}...</p>
+          </div>
+          <IoHeart className="absolute right-5 top-5 text-[#4cab52]" />
         </Link>
       ))}
       <Link
         href={`/scan`}
-        className="flex items-center justify-center rounded-2xl bg-[#fff8ee] p-4 text-[#ffd485] transition-colors duration-200 hover:cursor-pointer hover:bg-[#fdc763ac] hover:text-white"
+        className="flex items-center justify-center rounded-2xl bg-[#eff7ee] p-4 text-[#4cab52] transition-colors duration-200 hover:cursor-pointer hover:bg-[#bcfab1] hover:text-white"
       >
         <FaPlus className="text-5xl" />
       </Link>

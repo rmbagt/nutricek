@@ -110,3 +110,54 @@ export async function removeArticleLikes(articleId: string, userId: string) {
 
   return response;
 }
+
+export async function createArticle(data: {
+  title: string;
+  content: string;
+  image: string;
+  category: string;
+}) {
+  const session = await auth();
+  const response = await prisma.article.create({
+    data: {
+      ...data,
+      author: {
+        connect: {
+          email: session?.user?.email as string,
+        },
+      },
+    },
+    include: {
+      author: true,
+      likes: true,
+    },
+  });
+  return response;
+}
+
+export async function updateArticle(
+  id: string,
+  data: {
+    title?: string;
+    content?: string;
+    image?: string;
+    category?: string;
+  },
+) {
+  const response = await prisma.article.update({
+    where: { id },
+    data,
+    include: {
+      author: true,
+      likes: true,
+    },
+  });
+  return response;
+}
+
+export async function deleteArticle(id: string) {
+  const response = await prisma.article.delete({
+    where: { id },
+  });
+  return response;
+}

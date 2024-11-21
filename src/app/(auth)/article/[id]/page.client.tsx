@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { IoIosArrowBack, IoMdHeart } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
-
 import { formatDate } from "@/lib/utils";
 import {
   useAddArticleLikes,
   useGetArticleById,
   useRemoveArticleLikes,
 } from "@/services/article-service";
+import parse from "html-react-parser";
 
 export default function ArticlePageClient({
   articleId,
@@ -73,13 +73,7 @@ export default function ArticlePageClient({
         <p className="mt-2 text-lg text-gray-700">{article?.author.name}</p>
       </div>
 
-      <div className="prose max-w-none">
-        {article?.content.split("\n").map((paragraph, index) => (
-          <p key={index} className="mb-4">
-            {paragraph}
-          </p>
-        ))}
-      </div>
+      <div className="prose max-w-none">{parse(`${article?.content}`)}</div>
 
       <div className="mt-8 flex items-center justify-between">
         <div className="flex items-center gap-2">

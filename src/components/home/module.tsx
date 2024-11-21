@@ -14,6 +14,7 @@ import {
   useGetUserArticles,
 } from "@/services/article-service";
 import ArticleList from "./article-list";
+import Link from "next/link";
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductsQuery = useGetUserProducts();
@@ -50,13 +51,15 @@ function HomeModule({ session }: { session: Session | null }) {
         <p className="w-1/2 text-left text-lg font-semibold text-white">
           Compose your article
         </p>
-        <Button
-          variant="secondary"
-          className="bg-white text-[#9e9bc7] hover:bg-gray-100"
-        >
-          Create Now
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link href="/create-article">
+          <Button
+            variant="secondary"
+            className="bg-white text-[#9e9bc7] hover:bg-gray-100"
+          >
+            Create Now
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </div>
 
       {/* Choose your favorite */}

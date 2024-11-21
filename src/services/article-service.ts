@@ -8,6 +8,11 @@ import {
   removeArticleLikes,
 } from "@/actions/article-actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  createArticle,
+  updateArticle,
+  deleteArticle,
+} from "@/actions/article-actions";
 
 export const useGetAllArticles = () => {
   return useQuery({
@@ -55,7 +60,7 @@ export const useGetTrendingArticles = () => {
 
 export const useGetArticleById = (id: string) => {
   return useQuery({
-    queryKey: ["getArticleById", id],
+    queryKey: ["getArticleById"],
     queryFn: async () => {
       const response = await getArticleById(id);
 
@@ -98,6 +103,77 @@ export const useRemoveArticleLikes = () => {
       } else {
         await queryClient.invalidateQueries({
           queryKey: ["getArticleById"],
+        });
+      }
+    },
+  });
+};
+
+export const useCreateArticle = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      title: string;
+      content: string;
+      image: string;
+      category: string;
+    }) => {
+      const response = await createArticle(data);
+      return response;
+    },
+    onSettled: async (_, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        await queryClient.invalidateQueries({
+          queryKey: ["getAllArticles"],
+        });
+      }
+    },
+  });
+};
+
+export const useUpdateArticle = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      id: string;
+      title?: string;
+      content?: string;
+      image?: string;
+      category?: string;
+    }) => {
+      const response = await updateArticle(data.id, data);
+      return response;
+    },
+    onSettled: async (_, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        await queryClient.invalidateQueries({
+          queryKey: ["getArticleById"],
+        });
+      }
+    },
+  });
+};
+
+export const useDeleteArticle = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await deleteArticle(id);
+      return response;
+    },
+    onSettled: async (_, error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        await queryClient.invalidateQueries({
+          queryKey: ["getAllArticles"],
         });
       }
     },

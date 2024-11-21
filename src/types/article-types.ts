@@ -1,5 +1,3 @@
-import { Article } from "@prisma/client";
-
 export interface UserArticle {
   id: string;
   image: string;

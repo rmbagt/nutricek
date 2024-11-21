@@ -9,39 +9,26 @@ import LoadingSkeleton from "../skeleton/loading-skeleton";
 import { ArticleSlider } from "./article-slider";
 import { Button } from "@/components/ui/button";
 import FavoriteSlider from "./favorite-slider";
-import { useGetUserArticles } from "@/services/article-service";
+import {
+  useGetTrendingArticles,
+  useGetUserArticles,
+} from "@/services/article-service";
 import ArticleList from "./article-list";
-
-// Mock data for articles
-const mockArticles = [
-  {
-    id: "1",
-    title: "The pros and cons of fast food",
-    image: "/assets/FoodCard.png",
-    category: "Nutrition",
-  },
-  {
-    id: "2",
-    title: "Healthy eating habits for busy professionals",
-    image: "/assets/healthy-eating.jpg",
-    category: "Lifestyle",
-  },
-  {
-    id: "3",
-    title: "Understanding food labels: A comprehensive guide",
-    image: "/assets/food-labels.jpg",
-    category: "Education",
-  },
-];
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductsQuery = useGetUserProducts();
   const userArticlesQuery = useGetUserArticles();
+  const trendingArticlesQuery = useGetTrendingArticles();
 
   const FavoriteItems = userProductsQuery.data?.products;
   const UserArticles = userArticlesQuery.data;
+  const TrendingArticles = trendingArticlesQuery.data;
 
-  if (userProductsQuery.isLoading || userArticlesQuery.isLoading) {
+  if (
+    userProductsQuery.isLoading ||
+    userArticlesQuery.isLoading ||
+    trendingArticlesQuery.isLoading
+  ) {
     return <LoadingSkeleton />;
   }
 
@@ -55,7 +42,7 @@ function HomeModule({ session }: { session: Session | null }) {
 
       {/* Article Slider */}
       <div className="my-4">
-        <ArticleSlider articles={mockArticles} />
+        <ArticleSlider TrendingArticles={TrendingArticles!} />
       </div>
 
       {/* Compose your article */}

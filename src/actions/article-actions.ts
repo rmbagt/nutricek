@@ -3,6 +3,17 @@
 import { auth } from "@/auth/authOptions";
 import { prisma } from "@/lib/db";
 
+export async function getAllArticles() {
+  const response = await prisma.article.findMany({
+    include: {
+      author: true,
+      likes: true,
+    },
+  });
+
+  return response;
+}
+
 export async function getUserArticles() {
   const session = await auth();
 
@@ -12,6 +23,38 @@ export async function getUserArticles() {
     },
     include: {
       articles: true,
+      likes: true,
+    },
+  });
+
+  return response;
+}
+
+export async function getPopularArticle() {
+  const response = await prisma.article.findMany({
+    orderBy: {
+      likes: {
+        _count: "desc",
+      },
+    },
+    take: 5,
+    include: {
+      author: true,
+      likes: true,
+    },
+  });
+
+  return response;
+}
+
+export async function getTrendingArticle() {
+  const response = await prisma.article.findMany({
+    orderBy: {
+      views: "desc",
+    },
+    take: 5,
+    include: {
+      author: true,
       likes: true,
     },
   });

@@ -1,16 +1,52 @@
 import {
   addArticleLikes,
+  getAllArticles,
   getArticleById,
+  getPopularArticle,
+  getTrendingArticle,
   getUserArticles,
   removeArticleLikes,
 } from "@/actions/article-actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+export const useGetAllArticles = () => {
+  return useQuery({
+    queryKey: ["getAllArticles"],
+    queryFn: async () => {
+      const response = await getAllArticles();
+
+      return response;
+    },
+  });
+};
 
 export const useGetUserArticles = () => {
   return useQuery({
     queryKey: ["getUserArticles"],
     queryFn: async () => {
       const response = await getUserArticles();
+
+      return response;
+    },
+  });
+};
+
+export const useGetPopularArticles = () => {
+  return useQuery({
+    queryKey: ["getPopularArticles"],
+    queryFn: async () => {
+      const response = await getPopularArticle();
+
+      return response;
+    },
+  });
+};
+
+export const useGetTrendingArticles = () => {
+  return useQuery({
+    queryKey: ["getTrendingArticles"],
+    queryFn: async () => {
+      const response = await getTrendingArticle();
 
       return response;
     },

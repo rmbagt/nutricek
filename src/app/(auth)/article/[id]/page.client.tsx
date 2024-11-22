@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { IoIosArrowBack, IoMdHeart } from "react-icons/io";
+import { IoIosArrowBack, IoMdEye, IoMdHeart } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
 import { formatDate } from "@/lib/utils";
@@ -65,8 +65,8 @@ export default function ArticlePageClient({
           <p className="text-sm text-gray-500">
             {formatDate(article?.createdAt)} • {article?.category}
           </p>
-          <p className="text-sm text-gray-500">
-            👁️ {article?.views || 0} views
+          <p className="flex items-center text-sm text-gray-500">
+            <IoMdEye className="mr-1" /> {article?.views || 0} views
           </p>
         </div>
         <h2 className="mt-2 text-3xl font-bold">{article?.title}</h2>

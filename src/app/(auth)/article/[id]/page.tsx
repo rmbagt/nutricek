@@ -4,7 +4,7 @@ import ArticlePageClient from "./page.client";
 import { auth } from "@/auth/authOptions";
 import { prisma } from "@/lib/db";
 
-export default async function ProductPage({
+export default async function ArticlePage({
   params,
 }: {
   params: { id: string };

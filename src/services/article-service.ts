@@ -175,6 +175,9 @@ export const useDeleteArticle = () => {
         await queryClient.invalidateQueries({
           queryKey: ["getAllArticles"],
         });
+        await queryClient.invalidateQueries({
+          queryKey: ["getUserArticles"],
+        });
       }
     },
   });

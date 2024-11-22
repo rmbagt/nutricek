@@ -156,8 +156,13 @@ export async function updateArticle(
 }
 
 export async function deleteArticle(id: string) {
-  const response = await prisma.article.delete({
-    where: { id },
+  const response = await prisma.$transaction(async (prisma) => {
+    await prisma.like.deleteMany({
+      where: { articleId: id },
+    });
+    return prisma.article.delete({
+      where: { id },
+    });
   });
   return response;
 }

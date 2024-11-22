@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Card,
@@ -6,21 +8,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Heart } from "lucide-react";
+import { EditIcon, Heart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserArticle } from "@/types/article-types";
+import { useDeleteArticle } from "@/services/article-service";
 
 export default function ArticleList({
   UserArticles,
 }: {
   UserArticles: UserArticle[];
 }) {
+  const deleteArticleMutation = useDeleteArticle();
+
+  function handleDeletearticle(id: string) {
+    deleteArticleMutation.mutate(id);
+  }
+
   return (
-    <div className="mt-8">
-      <h2 className="mb-4 text-left text-2xl font-semibold text-[#4cab52]">
-        Your Articles
-      </h2>
+    <div>
       {UserArticles?.length ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {UserArticles.map((article) => (
@@ -41,6 +47,12 @@ export default function ArticleList({
                 <p className="line-clamp-3 text-sm text-gray-600">
                   {article.content.substring(0, 150)}...
                 </p>
+                <Link
+                  href={`/article/${article.id}`}
+                  className="text-sm font-medium text-[#4cab52] hover:underline"
+                >
+                  Read more
+                </Link>
               </CardContent>
               <CardFooter className="flex items-center justify-between p-4">
                 <div className="flex items-center space-x-1">
@@ -49,12 +61,17 @@ export default function ArticleList({
                     {article.likes.length}
                   </span>
                 </div>
-                <Link
-                  href={`/article/${article.id}`}
-                  className="text-sm font-medium text-[#4cab52] hover:underline"
-                >
-                  Read more
-                </Link>
+                <div className="flex items-center space-x-2">
+                  <button className="flex items-center text-sm font-medium text-blue-500 hover:underline">
+                    <EditIcon />
+                  </button>
+                  <button
+                    onClick={() => handleDeletearticle(article.id)}
+                    className="flex items-center text-sm font-medium text-red-500 hover:underline"
+                  >
+                    <Trash2 />
+                  </button>
+                </div>
               </CardFooter>
             </Card>
           ))}

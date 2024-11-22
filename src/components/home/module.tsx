@@ -9,27 +9,17 @@ import LoadingSkeleton from "../skeleton/loading-skeleton";
 import { ArticleSlider } from "./article-slider";
 import { Button } from "@/components/ui/button";
 import FavoriteSlider from "./favorite-slider";
-import {
-  useGetTrendingArticles,
-  useGetUserArticles,
-} from "@/services/article-service";
-import ArticleList from "./article-list";
+import { useGetTrendingArticles } from "@/services/article-service";
 import Link from "next/link";
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductsQuery = useGetUserProducts();
-  const userArticlesQuery = useGetUserArticles();
   const trendingArticlesQuery = useGetTrendingArticles();
 
   const FavoriteItems = userProductsQuery.data?.products;
-  const UserArticles = userArticlesQuery.data;
   const TrendingArticles = trendingArticlesQuery.data;
 
-  if (
-    userProductsQuery.isLoading ||
-    userArticlesQuery.isLoading ||
-    trendingArticlesQuery.isLoading
-  ) {
+  if (userProductsQuery.isLoading || trendingArticlesQuery.isLoading) {
     return <LoadingSkeleton />;
   }
 
@@ -51,7 +41,7 @@ function HomeModule({ session }: { session: Session | null }) {
         <p className="w-1/2 text-left text-lg font-semibold text-white">
           Compose your article
         </p>
-        <Link href="/create-article">
+        <Link href="/article">
           <Button
             variant="secondary"
             className="bg-white text-[#9e9bc7] hover:bg-gray-100"
@@ -64,18 +54,6 @@ function HomeModule({ session }: { session: Session | null }) {
 
       {/* Choose your favorite */}
       <FavoriteSlider FavoriteItems={FavoriteItems!} />
-
-      {/* Your article */}
-      <ArticleList
-        UserArticles={
-          UserArticles?.articles.map((article) => ({
-            ...article,
-            likes: UserArticles.likes.filter(
-              (like) => like.articleId === article.id,
-            ),
-          })) || []
-        }
-      />
     </div>
   );
 }

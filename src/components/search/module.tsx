@@ -14,6 +14,7 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoAnalyticsOutline, IoCloseOutline } from "react-icons/io5";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
+import parse from "html-react-parser";
 import LoadingSkeleton from "../skeleton/loading-skeleton";
 
 const fadeInUp = {

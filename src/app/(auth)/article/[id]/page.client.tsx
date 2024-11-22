@@ -73,7 +73,13 @@ export default function ArticlePageClient({
         <p className="mt-2 text-lg text-gray-700">{article?.author.name}</p>
       </div>
 
-      <div className="prose max-w-none">{parse(`${article?.content}`)}</div>
+      <div className="prose max-w-none">
+        {article?.content.split("\n").map((paragraph, index) => (
+          <p key={index} className="mb-4">
+            {paragraph}
+          </p>
+        ))}
+      </div>
 
       <div className="mt-8 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -90,13 +96,6 @@ export default function ArticlePageClient({
           </Button>
           <span className="text-gray-500">{article?.likes.length || 0}</span>
         </div>
-        <Button
-          variant="outline"
-          className="bg-green-500 text-white transition-colors duration-200 hover:bg-green-700"
-          onClick={() => router.push("/articles")}
-        >
-          More Articles
-        </Button>
       </div>
     </div>
   );

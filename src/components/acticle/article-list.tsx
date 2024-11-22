@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -13,6 +13,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserArticle } from "@/types/article-types";
 import { useDeleteArticle } from "@/services/article-service";
+import { ConfirmDeleteModal } from "./confirm-delete-modal";
+import { Button } from "@/components/ui/button";
 
 export default function ArticleList({
   UserArticles,
@@ -20,9 +22,19 @@ export default function ArticleList({
   UserArticles: UserArticle[];
 }) {
   const deleteArticleMutation = useDeleteArticle();
+  const [articleToDelete, setArticleToDelete] = useState<UserArticle | null>(
+    null,
+  );
 
-  function handleDeletearticle(id: string) {
-    deleteArticleMutation.mutate(id);
+  function handleDeleteArticle(article: UserArticle) {
+    setArticleToDelete(article);
+  }
+
+  function confirmDelete() {
+    if (articleToDelete) {
+      deleteArticleMutation.mutate(articleToDelete.id);
+      setArticleToDelete(null);
+    }
   }
 
   return (
@@ -62,15 +74,25 @@ export default function ArticleList({
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button className="flex items-center text-sm font-medium text-blue-500 hover:underline">
-                    <EditIcon />
-                  </button>
-                  <button
-                    onClick={() => handleDeletearticle(article.id)}
-                    className="flex items-center text-sm font-medium text-red-500 hover:underline"
+                  <Link href={`/edit-article/${article.id}`}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-blue-500 hover:text-blue-700"
+                    >
+                      <EditIcon className="h-4 w-4" />
+                      <span className="sr-only">Edit article</span>
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDeleteArticle(article)}
+                    className="text-red-500 hover:text-red-700"
                   >
-                    <Trash2 />
-                  </button>
+                    <Trash2 className="h-4 w-4" />
+                    <span className="sr-only">Delete article</span>
+                  </Button>
                 </div>
               </CardFooter>
             </Card>
@@ -84,6 +106,12 @@ export default function ArticleList({
           <p className="text-sm">Create one to track them</p>
         </div>
       )}
+      <ConfirmDeleteModal
+        isOpen={!!articleToDelete}
+        onClose={() => setArticleToDelete(null)}
+        onConfirm={confirmDelete}
+        title={articleToDelete?.title || ""}
+      />
     </div>
   );
 }

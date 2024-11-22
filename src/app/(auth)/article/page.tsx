@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ArticleList from "@/components/home/article-list";
+
 import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
 import { useGetUserArticles } from "@/services/article-service";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Pagination } from "@/components/ui/pagination";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import ArticleList from "@/components/acticle/article-list";
 
 export default function ArticlesPage() {
   const router = useRouter();
@@ -62,12 +63,6 @@ export default function ArticlesPage() {
           <p className="mb-4 text-gray-600">
             Start writing and sharing your knowledge!
           </p>
-          <Link href="/create-article">
-            <Button className="bg-[#4cab52] text-white hover:bg-[#3a8a3e]">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Create Your First Article
-            </Button>
-          </Link>
         </div>
       ) : (
         <>

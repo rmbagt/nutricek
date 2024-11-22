@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-import { useCreateArticle } from "@/services/article-service";
+import {
+  useUpdateArticle,
+  useGetArticleById,
+} from "@/services/article-service";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
@@ -25,10 +28,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import axios from "axios";
+import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
 import { IoIosArrowBack } from "react-icons/io";
-import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters long"),
@@ -37,9 +41,16 @@ const formSchema = z.object({
   category: z.string().min(1, "Please select a category"),
 });
 
-export default function CreateArticlePageClient() {
+export default function EditArticlePageClient({
+  articleId,
+}: {
+  articleId: string;
+}) {
   const router = useRouter();
-  const createArticleMutation = useCreateArticle();
+  const updateArticleMutation = useUpdateArticle();
+  const { data: article, isLoading: isLoadingArticle } =
+    useGetArticleById(articleId);
+
   const [file, setFile] = React.useState<File>();
   const [error, setError] = React.useState<string>("");
   const [loading, setLoading] = React.useState(false);
@@ -55,9 +66,22 @@ export default function CreateArticlePageClient() {
     },
   });
 
+  // Set form values when article data is loaded
+  React.useEffect(() => {
+    if (article) {
+      form.reset({
+        title: article.title,
+        content: article.content,
+        image: article.image,
+        category: article.category,
+      });
+      setPreviewUrl(article.image);
+    }
+  }, [article, form]);
+
   React.useEffect(() => {
     return () => {
-      if (previewUrl) {
+      if (previewUrl && !previewUrl.startsWith("/api/")) {
         URL.revokeObjectURL(previewUrl);
       }
     };
@@ -118,15 +142,23 @@ export default function CreateArticlePageClient() {
         values.image = `/api/download?key=${uploadData.key}`;
       }
 
-      await createArticleMutation.mutateAsync(values);
-      toast.success("Article created successfully!");
+      await updateArticleMutation.mutateAsync({
+        id: articleId,
+        ...values,
+      });
+
+      toast.success("Article updated successfully!");
       router.push("/article");
     } catch (error) {
-      toast.error("Failed to create article. Please try again.");
+      toast.error("Failed to update article. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  if (isLoadingArticle) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="container mx-auto max-w-2xl">
@@ -138,7 +170,7 @@ export default function CreateArticlePageClient() {
           <IoIosArrowBack />
         </Button>
         <h1 className="text-center text-3xl font-bold text-[#4cab52]">
-          Create New Article
+          Edit Article
         </h1>
       </div>
       <Form {...form}>
@@ -175,7 +207,7 @@ export default function CreateArticlePageClient() {
                           alt="Selected Image"
                           width={400}
                           height={400}
-                          className="aspect-video rounded-lg border object-scale-down shadow-md"
+                          className="h-[400px] w-[400px] rounded-lg border object-scale-down shadow-md"
                         />
                         <Button
                           type="button"
@@ -284,11 +316,11 @@ export default function CreateArticlePageClient() {
           <Button
             type="submit"
             className="w-full bg-[#4cab52] font-semibold text-white hover:bg-[#3a8a3e]"
-            disabled={createArticleMutation.isPending || loading}
+            disabled={updateArticleMutation.isPending || loading}
           >
-            {createArticleMutation.isPending || loading
-              ? "Creating..."
-              : "Create Article"}
+            {updateArticleMutation.isPending || loading
+              ? "Updating..."
+              : "Update Article"}
           </Button>
         </form>
       </Form>

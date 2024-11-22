@@ -155,6 +155,9 @@ export const useUpdateArticle = () => {
         await queryClient.invalidateQueries({
           queryKey: ["getArticleById"],
         });
+        await queryClient.invalidateQueries({
+          queryKey: ["getUserArticles"],
+        });
       }
     },
   });

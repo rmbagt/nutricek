@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import CustomEditor from "@/components/custom-editor";
 import axios from "axios";
 import { IoIosArrowBack } from "react-icons/io";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters long"),
@@ -236,9 +237,14 @@ export default function CreateArticlePageClient() {
               <FormItem>
                 <FormLabel className="font-semibold">Content</FormLabel>
                 <FormControl>
-                  <CustomEditor
+                  {/* <CustomEditor
                     content={field.value}
                     setContent={field.onChange}
+                  /> */}
+                  <Textarea
+                    placeholder="Write your article content here..."
+                    className="h-40"
+                    {...field}
                   />
                 </FormControl>
                 <FormDescription>

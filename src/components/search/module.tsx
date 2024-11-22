@@ -14,7 +14,6 @@ import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoAnalyticsOutline, IoCloseOutline } from "react-icons/io5";
 import { RiShoppingBasket2Fill } from "react-icons/ri";
-import parse from "html-react-parser";
 import LoadingSkeleton from "../skeleton/loading-skeleton";
 
 const fadeInUp = {
@@ -179,7 +178,11 @@ export default function SearchModule() {
                         height={200}
                       />
                       <div className="absolute bottom-0 w-full bg-white/95 p-3">
-                        <p className="font-medium">{item.title}</p>
+                        <p className="text-sm font-medium">
+                          {item.title.length > 20
+                            ? `${item.title.substring(0, 25)}...`
+                            : item.title}
+                        </p>
                         <p className="text-sm text-gray-500">
                           {item.content.substring(0, 50)}...
                         </p>

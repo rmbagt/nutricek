@@ -70,7 +70,7 @@ export default function ArticlePageClient({
           </p>
         </div>
         <h2 className="mt-2 text-3xl font-bold">{article?.title}</h2>
-        <p className="mt-2 text-lg text-gray-700">{article?.author.name}</p>
+        <p className="mt-2 text-lg text-gray-700">By: {article?.author.name}</p>
       </div>
 
       <div className="prose max-w-none">

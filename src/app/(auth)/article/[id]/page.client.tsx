@@ -58,7 +58,7 @@ export default function ArticlePageClient({
 
   return (
     <motion.div
-      className="container mx-auto h-full min-h-svh overflow-y-auto md:h-svh"
+      className="container mx-auto h-full min-h-svh overflow-y-auto"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

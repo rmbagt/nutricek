@@ -57,7 +57,7 @@ export default function ArticlesPage() {
       initial="hidden"
       animate="visible"
       variants={variants}
-      className="container mx-auto h-full min-h-svh md:h-svh"
+      className="container mx-auto h-full min-h-svh"
     >
       <motion.div
         variants={itemVariants}

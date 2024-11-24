@@ -53,9 +53,7 @@ export default function ArticleList({
                 />
               </CardHeader>
               <CardContent className="flex-grow p-4 text-start">
-                <CardTitle className="mb-2 line-clamp-2">
-                  {article.title}
-                </CardTitle>
+                <CardTitle className="mb-2">{article.title}</CardTitle>
                 <p className="line-clamp-3 text-sm text-gray-600">
                   {article.content.substring(0, 150)}...
                 </p>

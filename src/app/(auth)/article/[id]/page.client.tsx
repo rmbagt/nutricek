@@ -12,7 +12,22 @@ import {
   useGetArticleById,
   useRemoveArticleLikes,
 } from "@/services/article-service";
-import parse from "html-react-parser";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.8 } },
+};
+
+const contentVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.8, delay: 0.3 } },
+};
 
 export default function ArticlePageClient({
   articleId,
@@ -42,7 +57,12 @@ export default function ArticlePageClient({
   };
 
   return (
-    <div className="min-h-svh overflow-y-auto p-4">
+    <motion.div
+      className="container mx-auto h-full min-h-svh overflow-y-auto md:h-svh"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <Button
         onClick={() => router.back()}
         className="mb-6 bg-green-600 p-2 text-xl font-bold transition-colors duration-200 hover:bg-green-800"
@@ -50,7 +70,7 @@ export default function ArticlePageClient({
         <IoIosArrowBack />
       </Button>
 
-      <div className="mb-6">
+      <motion.div className="mb-6" variants={imageVariants}>
         <Image
           src={article?.image || "/placeholder-image.jpg"}
           alt={article?.title || "Article image"}
@@ -58,9 +78,9 @@ export default function ArticlePageClient({
           width={1200}
           height={630}
         />
-      </div>
+      </motion.div>
 
-      <div className="mb-6">
+      <motion.div className="mb-6" variants={contentVariants}>
         <div className="flex items-center justify-between">
           <p className="text-sm text-gray-500">
             {formatDate(article?.createdAt)} • {article?.category}
@@ -71,17 +91,20 @@ export default function ArticlePageClient({
         </div>
         <h2 className="mt-2 text-3xl font-bold">{article?.title}</h2>
         <p className="mt-2 text-lg text-gray-700">By: {article?.author.name}</p>
-      </div>
+      </motion.div>
 
-      <div className="prose max-w-none">
+      <motion.div className="prose max-w-none" variants={contentVariants}>
         {article?.content.split("\n").map((paragraph, index) => (
           <p key={index} className="mb-4">
             {paragraph}
           </p>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="mt-8 flex items-center justify-between">
+      <motion.div
+        className="mt-8 flex items-center justify-between"
+        variants={contentVariants}
+      >
         <div className="flex items-center gap-2">
           <Button
             className="bg-transparent p-2 hover:bg-gray-100"
@@ -96,7 +119,7 @@ export default function ArticlePageClient({
           </Button>
           <span className="text-gray-500">{article?.likes.length || 0}</span>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

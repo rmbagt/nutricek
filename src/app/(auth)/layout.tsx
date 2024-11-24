@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <Landing>
       <main>{children}</main>
-      <Toaster />
+      <Toaster position="top-center" duration={1000} />
     </Landing>
   );
 }

@@ -13,6 +13,22 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+};
+
+const textVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
 
 export default function ProductPageClient({
   productId,
@@ -52,7 +68,12 @@ export default function ProductPageClient({
   }
 
   return (
-    <div className="min-h-svh overflow-y-auto p-4">
+    <motion.div
+      className="container mx-auto h-full min-h-svh overflow-y-auto md:h-svh"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="flex items-center gap-4">
         <Button
           onClick={() => router.back()}
@@ -60,25 +81,41 @@ export default function ProductPageClient({
         >
           <IoIosArrowBack />
         </Button>
-        <h1 className="text-xl font-bold">{productByIdQuery.data?.name}</h1>
+        <motion.h1 className="text-xl font-bold" variants={textVariants}>
+          {productByIdQuery.data?.name}
+        </motion.h1>
       </div>
       <div className="mt-4 flex items-center justify-center">
-        <Image
-          src={productByIdQuery.data?.image as string}
-          alt={productByIdQuery.data?.name as string}
-          className="h-80 rounded-lg object-cover md:h-72 md:object-contain"
-          width={600}
-          height={600}
-        />
+        <motion.div variants={imageVariants}>
+          <Image
+            src={productByIdQuery.data?.image as string}
+            alt={productByIdQuery.data?.name as string}
+            className="h-80 rounded-xl object-cover shadow-lg md:h-72 md:object-contain"
+            width={600}
+            height={600}
+          />
+        </motion.div>
       </div>
       <div className="flex flex-col items-center justify-center">
-        <h2 className="mt-4 text-4xl font-bold">
+        <motion.h2 className="mt-4 text-4xl font-bold" variants={textVariants}>
           Grade:{" "}
-          <span className="text-green-500">{productByIdQuery.data?.grade}</span>
-        </h2>
+          <span
+            className={
+              productByIdQuery.data?.grade.toLowerCase() === "a"
+                ? "text-green-700"
+                : productByIdQuery.data?.grade.toLowerCase() === "b"
+                  ? "text-green-500"
+                  : productByIdQuery.data?.grade.toLowerCase() === "c"
+                    ? "text-yellow-500"
+                    : "text-red-500"
+            }
+          >
+            {productByIdQuery.data?.grade}
+          </span>
+        </motion.h2>
       </div>
-      <div className="mt-8 grid grid-cols-4 gap-4 text-center">
-        <div>
+      <div className="mt-8 grid grid-cols-2 gap-4 text-center md:grid-cols-4">
+        <motion.div variants={textVariants}>
           <p className="text-lg font-semibold text-rose-400">Protein</p>
           <p className="text-2xl font-bold">
             {
@@ -87,8 +124,8 @@ export default function ProductPageClient({
             }
             g
           </p>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div variants={textVariants}>
           <p className="text-lg font-semibold text-rose-400">Calories</p>
           <p className="text-2xl font-bold">
             {
@@ -97,30 +134,30 @@ export default function ProductPageClient({
             }
             cal
           </p>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div variants={textVariants}>
           <p className="text-lg font-semibold text-rose-400">Fat</p>
           <p className="text-2xl font-bold">
             {(productByIdQuery.data?.components as { fat: number })?.fat}g
           </p>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div variants={textVariants}>
           <p className="text-lg font-semibold text-rose-400">Carbs</p>
           <p className="text-2xl font-bold">
             {(productByIdQuery.data?.components as { carbs: number })?.carbs}g
           </p>
-        </div>
+        </motion.div>
       </div>
-      <div className="mt-8">
+      <motion.div className="mt-8" variants={textVariants}>
         <h3 className="text-2xl font-bold">Details</h3>
         <p className="mt-2 text-gray-600">{productByIdQuery.data?.details}</p>
-      </div>
-      <div className="mt-8">
+      </motion.div>
+      <motion.div className="mt-8" variants={textVariants}>
         <h3 className="text-2xl font-bold">Ingredients</h3>
         <p className="mt-2 text-gray-600">
           {productByIdQuery.data?.ingredients.join(", ")}
         </p>
-      </div>
+      </motion.div>
       {isAddedToFavorites ? (
         <Button
           className="mt-8 w-full bg-red-500 text-lg font-semibold text-white transition-colors duration-200 hover:bg-red-700"
@@ -146,6 +183,6 @@ export default function ProductPageClient({
           Add to Favorites
         </Button>
       )}
-    </div>
+    </motion.div>
   );
 }

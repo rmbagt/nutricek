@@ -15,7 +15,7 @@ export default function FavoriteSlider({
       </h2>
       {FavoriteItems?.length ? (
         <div className="overflow-x-scroll">
-          <div className="flex w-max items-center gap-4 p-4 text-center">
+          <div className="flex w-max items-center gap-4 py-4 text-center">
             {FavoriteItems?.map((item) => (
               <Link
                 href={`/product/${item.id}`}
@@ -29,7 +29,7 @@ export default function FavoriteSlider({
                   width={150}
                   height={150}
                 />
-                <div className="flex flex-col justify-center items-center h-10">
+                <div className="flex h-10 flex-col items-center justify-center">
                   <p className="text-center text-xs font-bold">
                     {item.name.length > 25
                       ? `${item.name.slice(0, 25)}...`

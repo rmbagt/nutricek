@@ -73,10 +73,10 @@ export default function SearchModule() {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="min-h-screen bg-white pb-16"
+      className="container mx-auto h-svh"
     >
       {/* Search Bar */}
-      <motion.div className="px-4" variants={fadeInUp}>
+      <motion.div variants={fadeInUp}>
         <div className="relative flex items-center rounded-full bg-[#f4f4f4] px-4 py-3">
           <CiSearch className="text-gray-400" />
           <input
@@ -105,7 +105,6 @@ export default function SearchModule() {
       <AnimatePresence>
         {searchQuery.length > 0 && (
           <motion.div
-            className="px-4"
             initial="initial"
             animate="animate"
             exit="exit"
@@ -155,7 +154,7 @@ export default function SearchModule() {
         {!searchQuery && (
           <motion.div initial="initial" animate="animate" exit="exit">
             {/* Hot Now Section */}
-            <motion.div className="px-4 pt-6" variants={fadeInUp}>
+            <motion.div className="pt-6" variants={fadeInUp}>
               <h2 className="mb-4 text-xl font-semibold">Hot Now</h2>
               <motion.div
                 className="flex gap-4 overflow-x-auto pb-4"
@@ -194,7 +193,7 @@ export default function SearchModule() {
             </motion.div>
 
             {/* Trending Section */}
-            <motion.div className="px-4 pt-6" variants={fadeInUp}>
+            <motion.div className="pt-6" variants={fadeInUp}>
               <h2 className="mb-4 text-xl font-semibold">Trending</h2>
               <motion.div className="space-y-4" variants={staggerChildren}>
                 {trendingArticles?.map((item) => (
@@ -205,7 +204,7 @@ export default function SearchModule() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <p className="text-[#e2782c]">{item.title}</p>
+                      <p className="w-full text-[#e2782c]">{item.title}</p>
                       <IoAnalyticsOutline className="text-[#e2782c]" />
                     </motion.div>
                   </Link>

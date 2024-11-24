@@ -11,6 +11,12 @@ import { Button } from "@/components/ui/button";
 import FavoriteSlider from "./favorite-slider";
 import { useGetTrendingArticles } from "@/services/article-service";
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 function HomeModule({ session }: { session: Session | null }) {
   const userProductsQuery = useGetUserProducts();
@@ -24,21 +30,31 @@ function HomeModule({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className="z-20 text-center">
-      {/* Header */}
-      <h1 className="text-3xl font-semibold text-[#4cab52]">
-        Hello {session?.user?.name}!
-      </h1>
-      <h3 className="text-base">Find, track and eat healthy food.</h3>
+    <motion.div
+      className="z-20 mx-auto max-w-7xl text-center"
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      transition={{ staggerChildren: 0.3 }}
+    >
+      <motion.div variants={variants}>
+        <h1 className="text-2xl font-semibold text-[#4cab52] md:text-3xl">
+          Hello {session?.user?.name}!
+        </h1>
+        <h3 className="text-sm md:text-base">
+          Find, track and eat healthy food.
+        </h3>
+      </motion.div>
 
-      {/* Article Slider */}
-      <div className="my-4">
+      <motion.div variants={variants} className="my-4">
         <ArticleSlider TrendingArticles={TrendingArticles!} />
-      </div>
+      </motion.div>
 
-      {/* Compose your article */}
-      <div className="my-4 flex w-full items-center justify-between gap-2 rounded-2xl bg-[#9e9bc7] p-5">
-        <p className="w-1/2 text-left text-lg font-semibold text-white">
+      <motion.div
+        variants={variants}
+        className="my-4 flex w-full items-center justify-between gap-2 rounded-2xl bg-[#9e9bc7] p-3 md:p-5"
+      >
+        <p className="w-full text-left text-base font-semibold text-white md:text-lg">
           Compose your article
         </p>
         <Link href="/article">
@@ -46,15 +62,16 @@ function HomeModule({ session }: { session: Session | null }) {
             variant="secondary"
             className="bg-white text-[#9e9bc7] hover:bg-gray-100"
           >
-            Create Now
+            <span>Create Now</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
-      </div>
+      </motion.div>
 
-      {/* Choose your favorite */}
-      <FavoriteSlider FavoriteItems={FavoriteItems!} />
-    </div>
+      <motion.div variants={variants}>
+        <FavoriteSlider FavoriteItems={FavoriteItems!} />
+      </motion.div>
+    </motion.div>
   );
 }
 

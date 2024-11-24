@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import LoadingSkeleton from "@/components/skeleton/loading-skeleton";
 import { useGetUserArticles } from "@/services/article-service";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,24 @@ import { Pagination } from "@/components/ui/pagination";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import ArticleList from "@/components/acticle/article-list";
+import { motion } from "framer-motion";
+
+const variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function ArticlesPage() {
   const router = useRouter();
@@ -36,9 +53,17 @@ export default function ArticlesPage() {
   );
 
   return (
-    <div className="container mx-auto h-full min-h-svh overflow-scroll px-4 md:h-svh">
-      <div className="mb-8 flex flex-col justify-center gap-4">
-        <div className="flex items-center gap-2">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      className="container mx-auto h-full min-h-svh md:h-svh"
+    >
+      <motion.div
+        variants={itemVariants}
+        className="mb-8 flex flex-col justify-center gap-4"
+      >
+        <motion.div variants={itemVariants} className="flex items-center gap-2">
           <Button
             onClick={() => router.back()}
             className="bg-green-600 p-2 text-xl font-bold transition-colors duration-200 hover:bg-green-800"
@@ -46,26 +71,29 @@ export default function ArticlesPage() {
             <IoIosArrowBack />
           </Button>
           <h1 className="text-3xl font-bold text-[#4cab52]">Your Articles</h1>
-        </div>
-        <div className="flex w-full justify-end">
+        </motion.div>
+        <motion.div variants={itemVariants} className="flex w-full justify-end">
           <Link href="/create-article">
             <Button className="bg-[#4cab52] font-semibold text-white hover:bg-[#3a8a3e]">
               <PlusCircle className="mr-2 h-4 w-4" />
               Create Article
             </Button>
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {articles.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 p-12 text-center">
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 p-8 text-center md:p-12"
+        >
           <h2 className="mb-4 text-xl font-semibold">No articles yet</h2>
           <p className="mb-4 text-gray-600">
             Start writing and sharing your knowledge!
           </p>
-        </div>
+        </motion.div>
       ) : (
-        <>
+        <motion.div variants={itemVariants}>
           <ArticleList UserArticles={paginatedArticles} />
           <div className="mt-8 flex justify-center">
             <Pagination
@@ -74,8 +102,8 @@ export default function ArticlesPage() {
               onPageChange={setCurrentPage}
             />
           </div>
-        </>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

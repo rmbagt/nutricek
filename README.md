@@ -50,7 +50,7 @@ NutriCek is an AI-powered web application designed to help consumers quickly ass
 1. **Clone Repository:**
 
    ```bash
-   git clone https://github.com/reynaldomarchell/nutricek.git
+   git clone https://github.com/rmbagt/nutricek.git
    ```
 
 2. **Install Dependencies:**

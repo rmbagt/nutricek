@@ -144,6 +144,6 @@ R2_ACCOUNT_ID=
 
 ## Contributors
 
-<a href="https://github.com/reynaldomarchell/nutricek/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=reynaldomarchell/nutricek"/>
+<a href="https://github.com/rmbagt/nutricek/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=rmbagt/nutricek"/>
 </a>
